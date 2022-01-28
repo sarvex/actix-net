@@ -350,7 +350,7 @@
 
         <span class="kw">match</span> <span class="ident">this</span>.<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>) {
             <span class="ident">Poll::Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">resp</span>)) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Ok</span>((<span class="ident">this</span>.<span class="ident">f</span>)(<span class="ident">resp</span>))),
-            <span class="ident">Poll::Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
+            <span class="ident">Poll::Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>)) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>)),
             <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>,
         }
     }

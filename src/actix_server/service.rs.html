@@ -246,8 +246,8 @@
                 });
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Can not convert to an async tcp stream: {}&quot;</span>, <span class="ident">e</span>);
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
+                <span class="macro">error!</span>(<span class="string">&quot;Can not convert to an async tcp stream: {}&quot;</span>, <span class="ident">err</span>);
                 <span class="prelude-val">Err</span>(())
             }
         })
