@@ -73,7 +73,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">IO</span><span class="op">&gt;</span> <span class="ident">Connection</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">IO</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Construct new `Connection` from request and IO parts.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">req</span>: <span class="ident">R</span>, <span class="ident">io</span>: <span class="ident">IO</span>) -&gt; <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">req</span>: <span class="ident">R</span>, <span class="ident">io</span>: <span class="ident">IO</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">req</span>, <span class="ident">io</span> }
     }
 }
