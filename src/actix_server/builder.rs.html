@@ -299,8 +299,8 @@
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">io</span>, <span class="ident">time::Duration</span>};
 
 <span class="kw">use</span> <span class="ident">actix_rt::net::TcpStream</span>;
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">info</span>, <span class="ident">trace</span>};
 <span class="kw">use</span> <span class="ident">tokio::sync::mpsc</span>::{<span class="ident">unbounded_channel</span>, <span class="ident">UnboundedReceiver</span>, <span class="ident">UnboundedSender</span>};
+<span class="kw">use</span> <span class="ident">tracing</span>::{<span class="ident">info</span>, <span class="ident">trace</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">server::ServerCommand</span>,

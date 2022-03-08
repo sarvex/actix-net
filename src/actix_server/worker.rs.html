@@ -749,11 +749,11 @@
     <span class="ident">Arbiter</span>, <span class="ident">ArbiterHandle</span>, <span class="ident">System</span>,
 };
 <span class="kw">use</span> <span class="ident">futures_core</span>::{<span class="ident">future::LocalBoxFuture</span>, <span class="ident">ready</span>};
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">info</span>, <span class="ident">trace</span>};
 <span class="kw">use</span> <span class="ident">tokio::sync</span>::{
     <span class="ident">mpsc</span>::{<span class="ident">unbounded_channel</span>, <span class="ident">UnboundedReceiver</span>, <span class="ident">UnboundedSender</span>},
     <span class="ident">oneshot</span>,
 };
+<span class="kw">use</span> <span class="ident">tracing</span>::{<span class="ident">error</span>, <span class="ident">info</span>, <span class="ident">trace</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">service</span>::{<span class="ident">BoxedServerService</span>, <span class="ident">InternalServiceFactory</span>},
