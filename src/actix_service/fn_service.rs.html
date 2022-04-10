@@ -435,6 +435,7 @@
 <span id="428">428</span>
 <span id="429">429</span>
 <span id="430">430</span>
+<span id="431">431</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{<span class="ident">future::Future</span>, <span class="ident">marker::PhantomData</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">ok</span>, <span class="ident">IntoService</span>, <span class="ident">IntoServiceFactory</span>, <span class="ident">Ready</span>, <span class="ident">Service</span>, <span class="ident">ServiceFactory</span>};
@@ -831,8 +832,9 @@
 
     <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_auto_impl_send</span>() {
-        <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">map_config</span>, <span class="ident">ServiceExt</span>, <span class="ident">ServiceFactoryExt</span>};
         <span class="kw">use</span> <span class="ident">alloc::rc::Rc</span>;
+
+        <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">map_config</span>, <span class="ident">ServiceExt</span>, <span class="ident">ServiceFactoryExt</span>};
 
         <span class="kw">let</span> <span class="ident">srv_1</span> <span class="op">=</span> <span class="ident">fn_service</span>(<span class="op">|</span><span class="kw">_</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">|</span> <span class="ident">ok</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">Rc::new</span>(<span class="number">0u8</span>)));
 
@@ -866,5 +868,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_service" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_service" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (8bf93e9b6 2022-04-09)" ></div>
 </body></html>

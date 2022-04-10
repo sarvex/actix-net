@@ -153,8 +153,6 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Rustls based connector service.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! See [`TlsConnector`] for main connector service factory docs.</span>
@@ -183,10 +181,8 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">reexports</span> {
     <span class="doccomment">//! Re-exports from `rustls` and `webpki_roots` that are useful for connectors.</span>
 
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tokio_rustls::rustls::ClientConfig</span>;
-
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tokio_rustls::client::TlsStream</span> <span class="kw">as</span> <span class="ident">AsyncTlsStream</span>;
-
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tokio_rustls::rustls::ClientConfig</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webpki_roots::TLS_SERVER_ROOTS</span>;
 }
 
@@ -306,5 +302,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (8bf93e9b6 2022-04-09)" ></div>
 </body></html>

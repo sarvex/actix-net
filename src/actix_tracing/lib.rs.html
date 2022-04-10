@@ -378,8 +378,6 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-
     <span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
     <span class="kw">use</span> <span class="ident">std::collections</span>::{<span class="ident">BTreeMap</span>, <span class="ident">BTreeSet</span>};
     <span class="kw">use</span> <span class="ident">std::sync</span>::{<span class="ident">Arc</span>, <span class="ident">RwLock</span>};
@@ -387,6 +385,8 @@
     <span class="kw">use</span> <span class="ident">actix_service</span>::{<span class="ident">fn_factory</span>, <span class="ident">fn_service</span>};
     <span class="kw">use</span> <span class="ident">slab::Slab</span>;
     <span class="kw">use</span> <span class="ident">tracing</span>::{<span class="ident">span</span>, <span class="ident">Event</span>, <span class="ident">Level</span>, <span class="ident">Metadata</span>, <span class="ident">Subscriber</span>};
+
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
     <span class="macro">thread_local!</span> {
         <span class="kw">static</span> <span class="ident">SPAN</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">span::Id</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RefCell::new</span>(<span class="ident">Vec::new</span>());
@@ -512,5 +512,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_tracing" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_tracing" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (8bf93e9b6 2022-04-09)" ></div>
 </body></html>
