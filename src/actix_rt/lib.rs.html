@@ -210,6 +210,7 @@
 <span id="203">203</span>
 <span id="204">204</span>
 <span id="205">205</span>
+<span id="206">206</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Tokio-based single-threaded async runtime for the Actix ecosystem.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! In most parts of the the Actix ecosystem, it has been chosen to use !Send futures. For this</span>
@@ -407,6 +408,7 @@
 <span class="doccomment">/// assert!(handle.await.unwrap_err().is_cancelled());</span>
 <span class="doccomment">/// # });</span>
 <span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">track_caller</span>]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spawn</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span>(<span class="ident">f</span>: <span class="ident">Fut</span>) -&gt; <span class="ident">JoinHandle</span><span class="op">&lt;</span><span class="ident">Fut::Output</span><span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -416,5 +418,5 @@
     <span class="ident">tokio::task::spawn_local</span>(<span class="ident">f</span>)
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_rt" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (8bf93e9b6 2022-04-09)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_rt" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (18f314e70 2022-04-24)" ></div>
 </body></html>
