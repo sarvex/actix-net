@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   push:
-    branches: [master]
+    branches: [master, win-full-disk-ci]
 
 jobs:
   build_and_test:
@@ -12,10 +12,6 @@ jobs:
       fail-fast: false
       matrix:
         target:
-          - { name: Linux, os: ubuntu-latest, triple: x86_64-unknown-linux-gnu }
-          - { name: macOS, os: macos-latest, triple: x86_64-apple-darwin }
-          - { name: Windows, os: windows-latest, triple: x86_64-pc-windows-msvc }
-          - { name: Windows (MinGW), os: windows-latest, triple: x86_64-pc-windows-gnu }
           - { name: Windows (32-bit), os: windows-latest, triple: i686-pc-windows-msvc }
         version:
           - 1.52.0 # MSRV for -server and -tls
@@ -39,9 +35,6 @@ jobs:
         if: matrix.target.triple == 'x86_64-pc-windows-msvc' || matrix.target.triple == 'i686-pc-windows-msvc'
         run: echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Append
       - name: Install OpenSSL
-        if: matrix.target.triple == 'x86_64-pc-windows-msvc'
-        run: vcpkg install openssl:x64-windows
-      - name: Install OpenSSL
         if: matrix.target.triple == 'i686-pc-windows-msvc'
         run: vcpkg install openssl:x86-windows
 
@@ -51,21 +44,6 @@ jobs:
           toolchain: ${{ matrix.version }}-${{ matrix.target.triple }}
           profile: minimal
           override: true
-
-      # - name: Install MSYS2
-      #   if: matrix.target.triple == 'x86_64-pc-windows-gnu'
-      #   uses: msys2/setup-msys2@v2
-      # - name: Install MinGW Packages
-      #   if: matrix.target.triple == 'x86_64-pc-windows-gnu'
-      #   run: |
-      #     msys2 -c 'pacman -Sy --noconfirm pacman'
-      #     msys2 -c 'pacman --noconfirm -S base-devel pkg-config'
-
-      # - name: Generate Cargo.lock
-      #   uses: actions-rs/cargo@v1
-      #   with: { command: generate-lockfile }
-      # - name: Cache Dependencies
-      #   uses: Swatinem/rust-cache@v1.2.0
 
       - name: Install cargo-hack
         uses: actions-rs/cargo@v1
@@ -80,6 +58,8 @@ jobs:
       - name: Tweak lockfile
         run: |
           cargo update -p=native-tls --precise=0.2.8
+
+      - run: Get-PSDrive
 
       - name: check lib
         if: >
@@ -96,11 +76,14 @@ jobs:
         uses: actions-rs/cargo@v1
         with: { command: ci-check-min }
 
+      - run: Get-PSDrive
+
       - name: check full
         # TODO: compile OpenSSL and run tests on MinGW
         if: >
           matrix.target.os != 'ubuntu-latest'
           && matrix.target.triple != 'x86_64-pc-windows-gnu'
+        continue-on-error: true
         uses: actions-rs/cargo@v1
         with: { command: ci-check }
       - name: check all
@@ -108,81 +91,21 @@ jobs:
         uses: actions-rs/cargo@v1
         with: { command: ci-check-linux }
 
+      - run: Get-PSDrive
+
       - name: tests
         if: >
           matrix.target.os != 'ubuntu-latest'
           && matrix.target.triple != 'x86_64-pc-windows-gnu'
+        continue-on-error: true
         run: |
           cargo ci-test
           cargo ci-test-rt
           cargo ci-test-server
-      - name: tests
-        if: matrix.target.os == 'ubuntu-latest'
-        run: |
-          sudo bash -c "ulimit -Sl 512 && ulimit -Hl 512 && PATH=$PATH:/usr/share/rust/.cargo/bin && RUSTUP_TOOLCHAIN=${{ matrix.version }} cargo ci-test && RUSTUP_TOOLCHAIN=${{ matrix.version }} cargo ci-test-rt-linux && RUSTUP_TOOLCHAIN=${{ matrix.version }} cargo ci-test-server-linux"
+
+      - run: Get-PSDrive
 
       - name: Clear the cargo caches
         run: |
           cargo install cargo-cache --version 0.6.2 --no-default-features --features ci-autoclean
           cargo-cache
-
-  build_and_test_lower_msrv:
-    name: Linux / 1.49 (lower MSRV)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install 1.49.0 # MSRV for all but -server and -tls
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.49.0-x86_64-unknown-linux-gnu
-          profile: minimal
-          override: true
-
-      - name: Install cargo-hack
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-hack
-
-      - name: Generate Cargo.lock
-        uses: actions-rs/cargo@v1
-        with: { command: generate-lockfile }
-
-      - name: Tweak lockfile
-        run: |
-          cargo update -p=rustls --precise=0.20.2
-          cargo update -p=native-tls --precise=0.2.8
-
-      - name: tests
-        run: |
-          sudo bash -c "ulimit -Sl 512 && ulimit -Hl 512 && PATH=$PATH:/usr/share/rust/.cargo/bin && RUSTUP_TOOLCHAIN=1.49 cargo ci-test-lower-msrv"
-
-      - name: Clear the cargo caches
-        run: |
-          cargo install cargo-cache --version 0.6.2 --no-default-features --features ci-autoclean
-          cargo-cache
-
-  rustdoc:
-    name: rustdoc
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install Rust (nightly)
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly-x86_64-unknown-linux-gnu
-          profile: minimal
-          override: true
-
-      - name: Generate Cargo.lock
-        uses: actions-rs/cargo@v1
-        with: { command: generate-lockfile }
-      - name: Cache Dependencies
-        uses: Swatinem/rust-cache@v1.3.0
-
-      - name: doc tests io-uring
-        run: |
-          sudo bash -c "ulimit -Sl 512 && ulimit -Hl 512 && PATH=$PATH:/usr/share/rust/.cargo/bin && RUSTUP_TOOLCHAIN=nightly cargo ci-doctest"
