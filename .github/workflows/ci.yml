@@ -101,7 +101,6 @@ jobs:
         run: |
           cargo ci-test
           cargo ci-test-rt
-          cargo ci-test-server
 
       - run: Get-PSDrive
 
