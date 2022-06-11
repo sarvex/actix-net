@@ -1,4 +1,4 @@
-var N = null;var sourcesIndex = {};
+var sourcesIndex = {};
 sourcesIndex["actix_codec"] = {"name":"","files":["bcodec.rs","framed.rs","lib.rs","lines.rs"]};
 sourcesIndex["actix_macros"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["actix_rt"] = {"name":"","files":["arbiter.rs","lib.rs","runtime.rs","system.rs"]};
