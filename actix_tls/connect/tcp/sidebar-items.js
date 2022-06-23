@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["TcpConnector","TCP connector service factory."],["TcpConnectorService","TCP connector service."]]});
+window.SIDEBAR_ITEMS = {"struct":[["TcpConnector","TCP connector service factory."],["TcpConnectorService","TCP connector service."]]};

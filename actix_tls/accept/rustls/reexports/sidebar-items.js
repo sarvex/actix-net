@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ServerConfig","Common configuration for a set of server sessions."]]});
+window.SIDEBAR_ITEMS = {"struct":[["ServerConfig","Common configuration for a set of server sessions."]]};
