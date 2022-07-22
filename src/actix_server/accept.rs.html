@@ -4,7 +4,7 @@
     <nav class="sidebar"><a class="sidebar-logo" href="../../actix_server/index.html"><div class="logo-container">
                     <img src="https://actix.rs/img/logo.png" alt="logo"></div>
         </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../actix_server/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
                                 <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
                         </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
@@ -608,7 +608,7 @@
                     <span class="ident">WAKER_TOKEN</span> =&gt; {
                         <span class="kw">let</span> <span class="ident">exit</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle_waker</span>(<span class="ident">sockets</span>);
                         <span class="kw">if</span> <span class="ident">exit</span> {
-                            <span class="macro">info!</span>(<span class="string">&quot;Accept thread stopped&quot;</span>);
+                            <span class="macro">info!</span>(<span class="string">&quot;accept thread stopped&quot;</span>);
                             <span class="kw">return</span>;
                         }
                     }
@@ -765,16 +765,16 @@
 
     <span class="kw">fn</span> <span class="ident">register_logged</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">info</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServerSocketInfo</span>) {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">register</span>(<span class="ident">info</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="macro">debug!</span>(<span class="string">&quot;Resume accepting connections on {}&quot;</span>, <span class="ident">info</span>.<span class="ident">lst</span>.<span class="ident">local_addr</span>()),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="macro">error!</span>(<span class="string">&quot;Can not register server socket {}&quot;</span>, <span class="ident">err</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="macro">debug!</span>(<span class="string">&quot;resume accepting connections on {}&quot;</span>, <span class="ident">info</span>.<span class="ident">lst</span>.<span class="ident">local_addr</span>()),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="macro">error!</span>(<span class="string">&quot;can not register server socket {}&quot;</span>, <span class="ident">err</span>),
         }
     }
 
     <span class="kw">fn</span> <span class="ident">deregister_logged</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">info</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServerSocketInfo</span>) {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">poll</span>.<span class="ident">registry</span>().<span class="ident">deregister</span>(<span class="kw-2">&amp;mut</span> <span class="ident">info</span>.<span class="ident">lst</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="macro">debug!</span>(<span class="string">&quot;Paused accepting connections on {}&quot;</span>, <span class="ident">info</span>.<span class="ident">lst</span>.<span class="ident">local_addr</span>()),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="macro">debug!</span>(<span class="string">&quot;paused accepting connections on {}&quot;</span>, <span class="ident">info</span>.<span class="ident">lst</span>.<span class="ident">local_addr</span>()),
             <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Can not deregister server socket {}&quot;</span>, <span class="ident">err</span>)
+                <span class="macro">error!</span>(<span class="string">&quot;can not deregister server socket {}&quot;</span>, <span class="ident">err</span>)
             }
         }
     }
@@ -818,7 +818,7 @@
                 <span class="self">self</span>.<span class="ident">remove_next</span>();
 
                 <span class="kw">if</span> <span class="self">self</span>.<span class="ident">handles</span>.<span class="ident">is_empty</span>() {
-                    <span class="macro">error!</span>(<span class="string">&quot;No workers&quot;</span>);
+                    <span class="macro">error!</span>(<span class="string">&quot;no workers&quot;</span>);
                     <span class="comment">// All workers are gone and Conn is nowhere to be sent.</span>
                     <span class="comment">// Treat this situation as Ok and drop Conn.</span>
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
@@ -867,7 +867,7 @@
                 <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">io::ErrorKind::WouldBlock</span> =&gt; <span class="kw">return</span>,
                 <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="kw">if</span> <span class="ident">connection_error</span>(<span class="ident">err</span>) =&gt; <span class="kw">continue</span>,
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-                    <span class="macro">error!</span>(<span class="string">&quot;Error accepting connection: {}&quot;</span>, <span class="ident">err</span>);
+                    <span class="macro">error!</span>(<span class="string">&quot;error accepting connection: {}&quot;</span>, <span class="ident">err</span>);
 
                     <span class="comment">// deregister listener temporary</span>
                     <span class="self">self</span>.<span class="ident">deregister_logged</span>(<span class="ident">info</span>);
@@ -927,5 +927,5 @@
         <span class="op">|</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">io::ErrorKind::ConnectionReset</span>
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (10f4ce324 2022-06-22)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (62b272d25 2022-07-21)" ></div>
 </body></html>
