@@ -466,6 +466,8 @@
 <span id="458">458</span>
 <span id="459">459</span>
 <span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">io</span>, <span class="ident">thread</span>, <span class="ident">time::Duration</span>};
 
 <span class="kw">use</span> <span class="ident">actix_rt::time::Instant</span>;
@@ -492,7 +494,7 @@
     <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">actix_rt::time::Instant</span><span class="op">&gt;</span>,
 }
 
-<span class="doccomment">/// poll instance of the server.</span>
+<span class="doccomment">/// Poll instance of the server.</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Accept</span> {
     <span class="ident">poll</span>: <span class="ident">Poll</span>,
     <span class="ident">waker_queue</span>: <span class="ident">WakerQueue</span>,
@@ -629,11 +631,13 @@
         <span class="comment">// a loop that would try to drain the command channel. It&#39;s yet unknown</span>
         <span class="comment">// if it&#39;s necessary/good practice to actively drain the waker queue.</span>
         <span class="kw">loop</span> {
-            <span class="comment">// take guard with every iteration so no new interest can be added</span>
-            <span class="comment">// until the current task is done.</span>
+            <span class="comment">// Take guard with every iteration so no new interests can be added until the current</span>
+            <span class="comment">// task is done. Take care not to take the guard again inside this loop.</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">waker_queue</span>.<span class="ident">guard</span>();
+
+            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::significant_drop_in_scrutinee</span>)]</span>
             <span class="kw">match</span> <span class="ident">guard</span>.<span class="ident">pop_front</span>() {
-                <span class="comment">// worker notify it becomes available.</span>
+                <span class="comment">// Worker notified it became available.</span>
                 <span class="prelude-val">Some</span>(<span class="ident">WakerInterest::WorkerAvailable</span>(<span class="ident">idx</span>)) =&gt; {
                     <span class="ident">drop</span>(<span class="ident">guard</span>);
 
@@ -644,7 +648,7 @@
                     }
                 }
 
-                <span class="comment">// a new worker thread is made and it&#39;s handle would be added to Accept</span>
+                <span class="comment">// A new worker thread has been created so store its handle.</span>
                 <span class="prelude-val">Some</span>(<span class="ident">WakerInterest::Worker</span>(<span class="ident">handle</span>)) =&gt; {
                     <span class="ident">drop</span>(<span class="ident">guard</span>);
 
