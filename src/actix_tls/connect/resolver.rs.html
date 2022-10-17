@@ -1,12 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/resolver.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>resolver.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
-                    <img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/resolver.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>resolver.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
+                    <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -207,141 +201,141 @@
 <span id="199">199</span>
 <span id="200">200</span>
 <span id="201">201</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">future::Future</span>,
-    <span class="ident">io</span>,
-    <span class="ident">net::SocketAddr</span>,
-    <span class="ident">pin::Pin</span>,
-    <span class="ident">rc::Rc</span>,
-    <span class="ident">task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>},
-    <span class="ident">vec::IntoIter</span>,
+</pre><pre class="rust"><code><span class="kw">use </span>std::{
+    future::Future,
+    io,
+    net::SocketAddr,
+    pin::Pin,
+    rc::Rc,
+    task::{Context, Poll},
+    vec::IntoIter,
 };
 
-<span class="kw">use</span> <span class="ident">actix_rt::task</span>::{<span class="ident">spawn_blocking</span>, <span class="ident">JoinHandle</span>};
-<span class="kw">use</span> <span class="ident">actix_service</span>::{<span class="ident">Service</span>, <span class="ident">ServiceFactory</span>};
-<span class="kw">use</span> <span class="ident">actix_utils::future</span>::{<span class="ident">ok</span>, <span class="ident">Ready</span>};
-<span class="kw">use</span> <span class="ident">futures_core</span>::{<span class="ident">future::LocalBoxFuture</span>, <span class="ident">ready</span>};
-<span class="kw">use</span> <span class="ident">tracing::trace</span>;
+<span class="kw">use </span>actix_rt::task::{spawn_blocking, JoinHandle};
+<span class="kw">use </span>actix_service::{Service, ServiceFactory};
+<span class="kw">use </span>actix_utils::future::{ok, Ready};
+<span class="kw">use </span>futures_core::{future::LocalBoxFuture, ready};
+<span class="kw">use </span>tracing::trace;
 
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">ConnectError</span>, <span class="ident">ConnectInfo</span>, <span class="ident">Host</span>, <span class="ident">Resolve</span>};
+<span class="kw">use super</span>::{ConnectError, ConnectInfo, Host, Resolve};
 
-<span class="doccomment">/// DNS resolver service factory.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Resolver</span> {
-    <span class="ident">resolver</span>: <span class="ident">ResolverService</span>,
+<span class="doccomment">/// DNS resolver service factory.
+</span><span class="attribute">#[derive(Clone, Default)]
+</span><span class="kw">pub struct </span>Resolver {
+    resolver: ResolverService,
 }
 
-<span class="kw">impl</span> <span class="ident">Resolver</span> {
-    <span class="doccomment">/// Constructs a new resolver factory with a custom resolver.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom</span>(<span class="ident">resolver</span>: <span class="kw">impl</span> <span class="ident">Resolve</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="ident">resolver</span>: <span class="ident">ResolverService::custom</span>(<span class="ident">resolver</span>),
+<span class="kw">impl </span>Resolver {
+    <span class="doccomment">/// Constructs a new resolver factory with a custom resolver.
+    </span><span class="kw">pub fn </span>custom(resolver: <span class="kw">impl </span>Resolve + <span class="lifetime">&#39;static</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            resolver: ResolverService::custom(resolver),
         }
     }
 
-    <span class="doccomment">/// Returns a new resolver service.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">service</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ResolverService</span> {
-        <span class="self">self</span>.<span class="ident">resolver</span>.<span class="ident">clone</span>()
+    <span class="doccomment">/// Returns a new resolver service.
+    </span><span class="kw">pub fn </span>service(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ResolverService {
+        <span class="self">self</span>.resolver.clone()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span> <span class="ident">ServiceFactory</span><span class="op">&lt;</span><span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Resolver</span> {
-    <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">ConnectError</span>;
-    <span class="kw">type</span> <span class="ident">Config</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">Service</span> <span class="op">=</span> <span class="ident">ResolverService</span>;
-    <span class="kw">type</span> <span class="ident">InitError</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">Ready</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Service</span>, <span class="ident"><span class="self">Self</span>::InitError</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">impl</span>&lt;R: Host&gt; ServiceFactory&lt;ConnectInfo&lt;R&gt;&gt; <span class="kw">for </span>Resolver {
+    <span class="kw">type </span>Response = ConnectInfo&lt;R&gt;;
+    <span class="kw">type </span>Error = ConnectError;
+    <span class="kw">type </span>Config = ();
+    <span class="kw">type </span>Service = ResolverService;
+    <span class="kw">type </span>InitError = ();
+    <span class="kw">type </span>Future = Ready&lt;<span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Service, <span class="self">Self</span>::InitError&gt;&gt;;
 
-    <span class="kw">fn</span> <span class="ident">new_service</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
-        <span class="ident">ok</span>(<span class="self">self</span>.<span class="ident">resolver</span>.<span class="ident">clone</span>())
+    <span class="kw">fn </span>new_service(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) -&gt; <span class="self">Self</span>::Future {
+        ok(<span class="self">self</span>.resolver.clone())
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">enum</span> <span class="ident">ResolverKind</span> {
-    <span class="doccomment">/// Built-in DNS resolver.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`std::net::ToSocketAddrs`] trait.</span>
-    <span class="ident">Default</span>,
+<span class="attribute">#[derive(Clone)]
+</span><span class="kw">enum </span>ResolverKind {
+    <span class="doccomment">/// Built-in DNS resolver.
+    ///
+    /// See [`std::net::ToSocketAddrs`] trait.
+    </span>Default,
 
-    <span class="doccomment">/// Custom, user-provided DNS resolver.</span>
-    <span class="ident">Custom</span>(<span class="ident">Rc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Resolve</span><span class="op">&gt;</span>),
+    <span class="doccomment">/// Custom, user-provided DNS resolver.
+    </span>Custom(Rc&lt;<span class="kw">dyn </span>Resolve&gt;),
 }
 
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ResolverKind</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident"><span class="self">Self</span>::Default</span>
+<span class="kw">impl </span>Default <span class="kw">for </span>ResolverKind {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::Default
     }
 }
 
-<span class="doccomment">/// DNS resolver service.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResolverService</span> {
-    <span class="ident">kind</span>: <span class="ident">ResolverKind</span>,
+<span class="doccomment">/// DNS resolver service.
+</span><span class="attribute">#[derive(Clone, Default)]
+</span><span class="kw">pub struct </span>ResolverService {
+    kind: ResolverKind,
 }
 
-<span class="kw">impl</span> <span class="ident">ResolverService</span> {
-    <span class="doccomment">/// Constructor for custom Resolve trait object and use it as resolver.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom</span>(<span class="ident">resolver</span>: <span class="kw">impl</span> <span class="ident">Resolve</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="ident">kind</span>: <span class="ident">ResolverKind::Custom</span>(<span class="ident">Rc::new</span>(<span class="ident">resolver</span>)),
+<span class="kw">impl </span>ResolverService {
+    <span class="doccomment">/// Constructor for custom Resolve trait object and use it as resolver.
+    </span><span class="kw">pub fn </span>custom(resolver: <span class="kw">impl </span>Resolve + <span class="lifetime">&#39;static</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            kind: ResolverKind::Custom(Rc::new(resolver)),
         }
     }
 
-    <span class="doccomment">/// Resolve DNS with default resolver.</span>
-    <span class="kw">fn</span> <span class="ident">default_lookup</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span>(
-        <span class="ident">req</span>: <span class="kw-2">&amp;</span><span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">JoinHandle</span><span class="op">&lt;</span><span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">IntoIter</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="comment">// reconstruct host; concatenate hostname and port together</span>
-        <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="ident">req</span>.<span class="ident">hostname</span>(), <span class="ident">req</span>.<span class="ident">port</span>());
+    <span class="doccomment">/// Resolve DNS with default resolver.
+    </span><span class="kw">fn </span>default_lookup&lt;R: Host&gt;(
+        req: <span class="kw-2">&amp;</span>ConnectInfo&lt;R&gt;,
+    ) -&gt; JoinHandle&lt;io::Result&lt;IntoIter&lt;SocketAddr&gt;&gt;&gt; {
+        <span class="comment">// reconstruct host; concatenate hostname and port together
+        </span><span class="kw">let </span>host = <span class="macro">format!</span>(<span class="string">&quot;{}:{}&quot;</span>, req.hostname(), req.port());
 
-        <span class="comment">// run blocking DNS lookup in thread pool since DNS lookups can take upwards of seconds on</span>
-        <span class="comment">// some platforms if conditions are poor and OS-level cache is not populated</span>
-        <span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="ident">std::net::ToSocketAddrs::to_socket_addrs</span>(<span class="kw-2">&amp;</span><span class="ident">host</span>))
+        <span class="comment">// run blocking DNS lookup in thread pool since DNS lookups can take upwards of seconds on
+        // some platforms if conditions are poor and OS-level cache is not populated
+        </span>spawn_blocking(<span class="kw">move </span>|| std::net::ToSocketAddrs::to_socket_addrs(<span class="kw-2">&amp;</span>host))
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span> <span class="ident">Service</span><span class="op">&lt;</span><span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ResolverService</span> {
-    <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">ConnectError</span>;
-    <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">ResolverFut</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>;
+<span class="kw">impl</span>&lt;R: Host&gt; Service&lt;ConnectInfo&lt;R&gt;&gt; <span class="kw">for </span>ResolverService {
+    <span class="kw">type </span>Response = ConnectInfo&lt;R&gt;;
+    <span class="kw">type </span>Error = ConnectError;
+    <span class="kw">type </span>Future = ResolverFut&lt;R&gt;;
 
     <span class="macro">actix_service::always_ready!</span>();
 
-    <span class="kw">fn</span> <span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
-        <span class="kw">if</span> <span class="ident">req</span>.<span class="ident">addr</span>.<span class="ident">is_resolved</span>() {
-            <span class="comment">// socket address(es) already resolved; return existing connection request</span>
-            <span class="ident">ResolverFut::Resolved</span>(<span class="prelude-val">Some</span>(<span class="ident">req</span>))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">ip</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">hostname</span>().<span class="ident">parse</span>() {
-            <span class="comment">// request hostname is valid ip address; add address to request and return</span>
-            <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="ident">SocketAddr::new</span>(<span class="ident">ip</span>, <span class="ident">req</span>.<span class="ident">port</span>());
-            <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">set_addr</span>(<span class="prelude-val">Some</span>(<span class="ident">addr</span>));
-            <span class="ident">ResolverFut::Resolved</span>(<span class="prelude-val">Some</span>(<span class="ident">req</span>))
-        } <span class="kw">else</span> {
-            <span class="macro">trace!</span>(<span class="string">&quot;DNS resolver: resolving host {:?}&quot;</span>, <span class="ident">req</span>.<span class="ident">hostname</span>());
+    <span class="kw">fn </span>call(<span class="kw-2">&amp;</span><span class="self">self</span>, req: ConnectInfo&lt;R&gt;) -&gt; <span class="self">Self</span>::Future {
+        <span class="kw">if </span>req.addr.is_resolved() {
+            <span class="comment">// socket address(es) already resolved; return existing connection request
+            </span>ResolverFut::Resolved(<span class="prelude-val">Some</span>(req))
+        } <span class="kw">else if let </span><span class="prelude-val">Ok</span>(ip) = req.hostname().parse() {
+            <span class="comment">// request hostname is valid ip address; add address to request and return
+            </span><span class="kw">let </span>addr = SocketAddr::new(ip, req.port());
+            <span class="kw">let </span>req = req.set_addr(<span class="prelude-val">Some</span>(addr));
+            ResolverFut::Resolved(<span class="prelude-val">Some</span>(req))
+        } <span class="kw">else </span>{
+            <span class="macro">trace!</span>(<span class="string">&quot;DNS resolver: resolving host {:?}&quot;</span>, req.hostname());
 
-            <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-                <span class="ident">ResolverKind::Default</span> =&gt; {
-                    <span class="kw">let</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::default_lookup</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>);
-                    <span class="ident">ResolverFut::LookUp</span>(<span class="ident">fut</span>, <span class="prelude-val">Some</span>(<span class="ident">req</span>))
+            <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.kind {
+                ResolverKind::Default =&gt; {
+                    <span class="kw">let </span>fut = <span class="self">Self</span>::default_lookup(<span class="kw-2">&amp;</span>req);
+                    ResolverFut::LookUp(fut, <span class="prelude-val">Some</span>(req))
                 }
 
-                <span class="ident">ResolverKind::Custom</span>(<span class="ident">resolver</span>) =&gt; {
-                    <span class="kw">let</span> <span class="ident">resolver</span> <span class="op">=</span> <span class="ident">Rc::clone</span>(<span class="ident">resolver</span>);
+                ResolverKind::Custom(resolver) =&gt; {
+                    <span class="kw">let </span>resolver = Rc::clone(resolver);
 
-                    <span class="ident">ResolverFut::LookupCustom</span>(<span class="ident">Box::pin</span>(<span class="kw">async</span> <span class="kw">move</span> {
-                        <span class="kw">let</span> <span class="ident">addrs</span> <span class="op">=</span> <span class="ident">resolver</span>
-                            .<span class="ident">lookup</span>(<span class="ident">req</span>.<span class="ident">hostname</span>(), <span class="ident">req</span>.<span class="ident">port</span>())
-                            .<span class="kw">await</span>
-                            .<span class="ident">map_err</span>(<span class="ident">ConnectError::Resolver</span>)<span class="question-mark">?</span>;
+                    ResolverFut::LookupCustom(Box::pin(<span class="kw">async move </span>{
+                        <span class="kw">let </span>addrs = resolver
+                            .lookup(req.hostname(), req.port())
+                            .<span class="kw">await
+                            </span>.map_err(ConnectError::Resolver)<span class="question-mark">?</span>;
 
-                        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">set_addrs</span>(<span class="ident">addrs</span>);
+                        <span class="kw">let </span>req = req.set_addrs(addrs);
 
-                        <span class="kw">if</span> <span class="ident">req</span>.<span class="ident">addr</span>.<span class="ident">is_unresolved</span>() {
-                            <span class="prelude-val">Err</span>(<span class="ident">ConnectError::NoRecords</span>)
-                        } <span class="kw">else</span> {
-                            <span class="prelude-val">Ok</span>(<span class="ident">req</span>)
+                        <span class="kw">if </span>req.addr.is_unresolved() {
+                            <span class="prelude-val">Err</span>(ConnectError::NoRecords)
+                        } <span class="kw">else </span>{
+                            <span class="prelude-val">Ok</span>(req)
                         }
                     }))
                 }
@@ -350,64 +344,63 @@
     }
 }
 
-<span class="doccomment">/// Future for resolver service.</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ResolverFut</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span> {
-    <span class="ident">Resolved</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span>),
-    <span class="ident">LookUp</span>(
-        <span class="ident">JoinHandle</span><span class="op">&lt;</span><span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">IntoIter</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Future for resolver service.
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub enum </span>ResolverFut&lt;R: Host&gt; {
+    Resolved(<span class="prelude-ty">Option</span>&lt;ConnectInfo&lt;R&gt;&gt;),
+    LookUp(
+        JoinHandle&lt;io::Result&lt;IntoIter&lt;SocketAddr&gt;&gt;&gt;,
+        <span class="prelude-ty">Option</span>&lt;ConnectInfo&lt;R&gt;&gt;,
     ),
-    <span class="ident">LookupCustom</span>(<span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">ConnectError</span><span class="op">&gt;</span><span class="op">&gt;</span>),
+    LookupCustom(LocalBoxFuture&lt;<span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span>&lt;ConnectInfo&lt;R&gt;, ConnectError&gt;&gt;),
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span> <span class="ident">Future</span> <span class="kw">for</span> <span class="ident">ResolverFut</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">ConnectError</span><span class="op">&gt;</span>;
+<span class="kw">impl</span>&lt;R: Host&gt; Future <span class="kw">for </span>ResolverFut&lt;R&gt; {
+    <span class="kw">type </span>Output = <span class="prelude-ty">Result</span>&lt;ConnectInfo&lt;R&gt;, ConnectError&gt;;
 
-    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Output</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_mut</span>() {
-            <span class="ident"><span class="self">Self</span>::Resolved</span>(<span class="ident">conn</span>) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">conn</span>
-                .<span class="ident">take</span>()
-                .<span class="ident">expect</span>(<span class="string">&quot;ResolverFuture polled after finished&quot;</span>))),
+    <span class="kw">fn </span>poll(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="self">Self</span>::Output&gt; {
+        <span class="kw">match </span><span class="self">self</span>.get_mut() {
+            <span class="self">Self</span>::Resolved(conn) =&gt; Poll::Ready(<span class="prelude-val">Ok</span>(conn
+                .take()
+                .expect(<span class="string">&quot;ResolverFuture polled after finished&quot;</span>))),
 
-            <span class="ident"><span class="self">Self</span>::LookUp</span>(<span class="ident">fut</span>, <span class="ident">req</span>) =&gt; {
-                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">match</span> <span class="macro">ready!</span>(<span class="ident">Pin::new</span>(<span class="ident">fut</span>).<span class="ident">poll</span>(<span class="ident">cx</span>)) {
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(<span class="ident">res</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">res</span>),
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>)) =&gt; <span class="prelude-val">Err</span>(<span class="ident">ConnectError::Resolver</span>(<span class="ident">Box::new</span>(<span class="ident">err</span>))),
-                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">ConnectError::Io</span>(<span class="ident">err</span>.<span class="ident">into</span>())),
+            <span class="self">Self</span>::LookUp(fut, req) =&gt; {
+                <span class="kw">let </span>res = <span class="kw">match </span><span class="macro">ready!</span>(Pin::new(fut).poll(cx)) {
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(res)) =&gt; <span class="prelude-val">Ok</span>(res),
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Err</span>(err)) =&gt; <span class="prelude-val">Err</span>(ConnectError::Resolver(Box::new(err))),
+                    <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(ConnectError::Io(err.into())),
                 };
 
-                <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>();
+                <span class="kw">let </span>req = req.take().unwrap();
 
-                <span class="kw">let</span> <span class="ident">addrs</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
+                <span class="kw">let </span>addrs = res.map_err(|err| {
                     <span class="macro">trace!</span>(
                         <span class="string">&quot;DNS resolver: failed to resolve host {:?} err: {:?}&quot;</span>,
-                        <span class="ident">req</span>.<span class="ident">hostname</span>(),
-                        <span class="ident">err</span>
+                        req.hostname(),
+                        err
                     );
 
-                    <span class="ident">err</span>
+                    err
                 })<span class="question-mark">?</span>;
 
-                <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">set_addrs</span>(<span class="ident">addrs</span>);
+                <span class="kw">let </span>req = req.set_addrs(addrs);
 
                 <span class="macro">trace!</span>(
                     <span class="string">&quot;DNS resolver: host {:?} resolved to {:?}&quot;</span>,
-                    <span class="ident">req</span>.<span class="ident">hostname</span>(),
-                    <span class="ident">req</span>.<span class="ident">addrs</span>()
+                    req.hostname(),
+                    req.addrs()
                 );
 
-                <span class="kw">if</span> <span class="ident">req</span>.<span class="ident">addr</span>.<span class="ident">is_unresolved</span>() {
-                    <span class="ident">Poll::Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">ConnectError::NoRecords</span>))
-                } <span class="kw">else</span> {
-                    <span class="ident">Poll::Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">req</span>))
+                <span class="kw">if </span>req.addr.is_unresolved() {
+                    Poll::Ready(<span class="prelude-val">Err</span>(ConnectError::NoRecords))
+                } <span class="kw">else </span>{
+                    Poll::Ready(<span class="prelude-val">Ok</span>(req))
                 }
             }
 
-            <span class="ident"><span class="self">Self</span>::LookupCustom</span>(<span class="ident">fut</span>) =&gt; <span class="ident">fut</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>),
+            <span class="self">Self</span>::LookupCustom(fut) =&gt; fut.as_mut().poll(cx),
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (848090dcd 2022-07-22)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8b5caee0 2022-10-16)" ></div></body></html>

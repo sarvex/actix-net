@@ -1,12 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/info.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>info.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
-                    <img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/info.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>info.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
+                    <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -255,255 +249,254 @@
 <span id="247">247</span>
 <span id="248">248</span>
 <span id="249">249</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Connection info struct.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Connection info struct.
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">collections::VecDeque</span>,
-    <span class="ident">fmt</span>,
-    <span class="ident">iter</span>::{<span class="self">self</span>, <span class="ident">FromIterator</span> <span class="kw">as</span> <span class="kw">_</span>},
-    <span class="ident">mem</span>,
-    <span class="ident">net</span>::{<span class="ident">IpAddr</span>, <span class="ident">SocketAddr</span>},
+</span><span class="kw">use </span>std::{
+    collections::VecDeque,
+    fmt,
+    iter::{<span class="self">self</span>, FromIterator <span class="kw">as _</span>},
+    mem,
+    net::{IpAddr, SocketAddr},
 };
 
-<span class="kw">use</span> <span class="kw">super</span>::{
-    <span class="ident">connect_addrs</span>::{<span class="ident">ConnectAddrs</span>, <span class="ident">ConnectAddrsIter</span>},
-    <span class="ident">Host</span>,
+<span class="kw">use super</span>::{
+    connect_addrs::{ConnectAddrs, ConnectAddrsIter},
+    Host,
 };
 
-<span class="doccomment">/// Connection request information.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// May contain known/pre-resolved socket address(es) or a host that needs resolving with DNS.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">request</span>: <span class="ident">R</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">port</span>: <span class="ident">u16</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">addr</span>: <span class="ident">ConnectAddrs</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">local_addr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">IpAddr</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Connection request information.
+///
+/// May contain known/pre-resolved socket address(es) or a host that needs resolving with DNS.
+</span><span class="attribute">#[derive(Debug, PartialEq, Eq, Hash)]
+</span><span class="kw">pub struct </span>ConnectInfo&lt;R&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) request: R,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) port: u16,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) addr: ConnectAddrs,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) local_addr: <span class="prelude-ty">Option</span>&lt;IpAddr&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span> <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Constructs new connection info using a request.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">request</span>: <span class="ident">R</span>) -&gt; <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">port</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">port</span>();
+<span class="kw">impl</span>&lt;R: Host&gt; ConnectInfo&lt;R&gt; {
+    <span class="doccomment">/// Constructs new connection info using a request.
+    </span><span class="kw">pub fn </span>new(request: R) -&gt; ConnectInfo&lt;R&gt; {
+        <span class="kw">let </span>port = request.port();
 
-        <span class="ident">ConnectInfo</span> {
-            <span class="ident">request</span>,
-            <span class="ident">port</span>: <span class="ident">port</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>),
-            <span class="ident">addr</span>: <span class="ident">ConnectAddrs::None</span>,
-            <span class="ident">local_addr</span>: <span class="prelude-val">None</span>,
+        ConnectInfo {
+            request,
+            port: port.unwrap_or(<span class="number">0</span>),
+            addr: ConnectAddrs::None,
+            local_addr: <span class="prelude-val">None</span>,
         }
     }
 
-    <span class="doccomment">/// Constructs new connection info from request and known socket address.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Since socket address is known, [`Connector`](super::Connector) will skip the DNS</span>
-    <span class="doccomment">/// resolution step.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_addr</span>(<span class="ident">request</span>: <span class="ident">R</span>, <span class="ident">addr</span>: <span class="ident">SocketAddr</span>) -&gt; <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-        <span class="ident">ConnectInfo</span> {
-            <span class="ident">request</span>,
-            <span class="ident">port</span>: <span class="number">0</span>,
-            <span class="ident">addr</span>: <span class="ident">ConnectAddrs::One</span>(<span class="ident">addr</span>),
-            <span class="ident">local_addr</span>: <span class="prelude-val">None</span>,
+    <span class="doccomment">/// Constructs new connection info from request and known socket address.
+    ///
+    /// Since socket address is known, [`Connector`](super::Connector) will skip the DNS
+    /// resolution step.
+    </span><span class="kw">pub fn </span>with_addr(request: R, addr: SocketAddr) -&gt; ConnectInfo&lt;R&gt; {
+        ConnectInfo {
+            request,
+            port: <span class="number">0</span>,
+            addr: ConnectAddrs::One(addr),
+            local_addr: <span class="prelude-val">None</span>,
         }
     }
 
-    <span class="doccomment">/// Set connection port.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If request provided a port, this will override it.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_port</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">port</span>: <span class="ident">u16</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">port</span> <span class="op">=</span> <span class="ident">port</span>;
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Set connection port.
+    ///
+    /// If request provided a port, this will override it.
+    </span><span class="kw">pub fn </span>set_port(<span class="kw-2">mut </span><span class="self">self</span>, port: u16) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.port = port;
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Set connection socket address.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_addr</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">addr</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">addr</span> <span class="op">=</span> <span class="ident">ConnectAddrs::from</span>(<span class="ident">addr</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Set connection socket address.
+    </span><span class="kw">pub fn </span>set_addr(<span class="kw-2">mut </span><span class="self">self</span>, addr: <span class="kw">impl </span>Into&lt;<span class="prelude-ty">Option</span>&lt;SocketAddr&gt;&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.addr = ConnectAddrs::from(addr.into());
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Set list of addresses.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_addrs</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">addrs</span>: <span class="ident">I</span>) -&gt; <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">SocketAddr</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Set list of addresses.
+    </span><span class="kw">pub fn </span>set_addrs&lt;I&gt;(<span class="kw-2">mut </span><span class="self">self</span>, addrs: I) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>I: IntoIterator&lt;Item = SocketAddr&gt;,
     {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">addrs</span> <span class="op">=</span> <span class="ident">VecDeque::from_iter</span>(<span class="ident">addrs</span>);
-        <span class="self">self</span>.<span class="ident">addr</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">addrs</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">2</span> {
-            <span class="ident">ConnectAddrs::from</span>(<span class="ident">addrs</span>.<span class="ident">pop_front</span>())
-        } <span class="kw">else</span> {
-            <span class="ident">ConnectAddrs::Multi</span>(<span class="ident">addrs</span>)
+        <span class="kw">let </span><span class="kw-2">mut </span>addrs = VecDeque::from_iter(addrs);
+        <span class="self">self</span>.addr = <span class="kw">if </span>addrs.len() &lt; <span class="number">2 </span>{
+            ConnectAddrs::from(addrs.pop_front())
+        } <span class="kw">else </span>{
+            ConnectAddrs::Multi(addrs)
         };
-        <span class="self">self</span>
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set local address to connection with.
+    ///
+    /// Useful in situations where the IP address bound to a particular network interface is known.
+    /// This would make sure the socket is opened through that interface.
+    </span><span class="kw">pub fn </span>set_local_addr(<span class="kw-2">mut </span><span class="self">self</span>, addr: <span class="kw">impl </span>Into&lt;IpAddr&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.local_addr = <span class="prelude-val">Some</span>(addr.into());
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Returns a reference to the connection request.
+    </span><span class="kw">pub fn </span>request(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>R {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.request
     }
 
-    <span class="doccomment">/// Set local address to connection with.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Useful in situations where the IP address bound to a particular network interface is known.</span>
-    <span class="doccomment">/// This would make sure the socket is opened through that interface.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_local_addr</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">addr</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">IpAddr</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">local_addr</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">addr</span>.<span class="ident">into</span>());
-        <span class="self">self</span>
+    <span class="doccomment">/// Returns request hostname.
+    </span><span class="kw">pub fn </span>hostname(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="self">self</span>.request.hostname()
     }
 
-    <span class="doccomment">/// Returns a reference to the connection request.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">R</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">request</span>
+    <span class="doccomment">/// Returns request port.
+    </span><span class="kw">pub fn </span>port(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u16 {
+        <span class="self">self</span>.request.port().unwrap_or(<span class="self">self</span>.port)
     }
 
-    <span class="doccomment">/// Returns request hostname.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hostname</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="self">self</span>.<span class="ident">request</span>.<span class="ident">hostname</span>()
-    }
-
-    <span class="doccomment">/// Returns request port.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">port</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u16</span> {
-        <span class="self">self</span>.<span class="ident">request</span>.<span class="ident">port</span>().<span class="ident">unwrap_or</span>(<span class="self">self</span>.<span class="ident">port</span>)
-    }
-
-    <span class="doccomment">/// Get borrowed iterator of resolved request addresses.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use std::net::SocketAddr;</span>
-    <span class="doccomment">/// # use actix_tls::connect::ConnectInfo;</span>
-    <span class="doccomment">/// let addr = SocketAddr::from(([127, 0, 0, 1], 4242));</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let conn = ConnectInfo::new(&quot;localhost&quot;);</span>
-    <span class="doccomment">/// let mut addrs = conn.addrs();</span>
-    <span class="doccomment">/// assert!(addrs.next().is_none());</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let conn = ConnectInfo::with_addr(&quot;localhost&quot;, addr);</span>
-    <span class="doccomment">/// let mut addrs = conn.addrs();</span>
-    <span class="doccomment">/// assert_eq!(addrs.next().unwrap(), addr);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">addrs</span>(
+    <span class="doccomment">/// Get borrowed iterator of resolved request addresses.
+    ///
+    /// # Examples
+    /// ```
+    /// # use std::net::SocketAddr;
+    /// # use actix_tls::connect::ConnectInfo;
+    /// let addr = SocketAddr::from(([127, 0, 0, 1], 4242));
+    ///
+    /// let conn = ConnectInfo::new(&quot;localhost&quot;);
+    /// let mut addrs = conn.addrs();
+    /// assert!(addrs.next().is_none());
+    ///
+    /// let conn = ConnectInfo::with_addr(&quot;localhost&quot;, addr);
+    /// let mut addrs = conn.addrs();
+    /// assert_eq!(addrs.next().unwrap(), addr);
+    /// ```
+    </span><span class="kw">pub fn </span>addrs(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">SocketAddr</span><span class="op">&gt;</span>
-           <span class="op">+</span> <span class="ident">ExactSizeIterator</span>
-           <span class="op">+</span> <span class="ident">iter::FusedIterator</span>
-           <span class="op">+</span> <span class="ident">Clone</span>
-           <span class="op">+</span> <span class="ident">fmt::Debug</span>
-           <span class="op">+</span> <span class="lifetime">&#39;_</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">addr</span> {
-            <span class="ident">ConnectAddrs::None</span> =&gt; <span class="ident">ConnectAddrsIter::None</span>,
-            <span class="ident">ConnectAddrs::One</span>(<span class="ident">addr</span>) =&gt; <span class="ident">ConnectAddrsIter::One</span>(<span class="ident">addr</span>),
-            <span class="ident">ConnectAddrs::Multi</span>(<span class="kw-2">ref</span> <span class="ident">addrs</span>) =&gt; <span class="ident">ConnectAddrsIter::Multi</span>(<span class="ident">addrs</span>.<span class="ident">iter</span>()),
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = SocketAddr&gt;
+           + ExactSizeIterator
+           + iter::FusedIterator
+           + Clone
+           + fmt::Debug
+           + <span class="lifetime">&#39;_ </span>{
+        <span class="kw">match </span><span class="self">self</span>.addr {
+            ConnectAddrs::None =&gt; ConnectAddrsIter::None,
+            ConnectAddrs::One(addr) =&gt; ConnectAddrsIter::One(addr),
+            ConnectAddrs::Multi(<span class="kw-2">ref </span>addrs) =&gt; ConnectAddrsIter::Multi(addrs.iter()),
         }
     }
 
-    <span class="doccomment">/// Take owned iterator resolved request addresses.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # use std::net::SocketAddr;</span>
-    <span class="doccomment">/// # use actix_tls::connect::ConnectInfo;</span>
-    <span class="doccomment">/// let addr = SocketAddr::from(([127, 0, 0, 1], 4242));</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let mut conn = ConnectInfo::new(&quot;localhost&quot;);</span>
-    <span class="doccomment">/// let mut addrs = conn.take_addrs();</span>
-    <span class="doccomment">/// assert!(addrs.next().is_none());</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let mut conn = ConnectInfo::with_addr(&quot;localhost&quot;, addr);</span>
-    <span class="doccomment">/// let mut addrs = conn.take_addrs();</span>
-    <span class="doccomment">/// assert_eq!(addrs.next().unwrap(), addr);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_addrs</span>(
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-    ) -&gt; <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">SocketAddr</span><span class="op">&gt;</span>
-           <span class="op">+</span> <span class="ident">ExactSizeIterator</span>
-           <span class="op">+</span> <span class="ident">iter::FusedIterator</span>
-           <span class="op">+</span> <span class="ident">Clone</span>
-           <span class="op">+</span> <span class="ident">fmt::Debug</span>
-           <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-        <span class="kw">match</span> <span class="ident">mem::take</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">addr</span>) {
-            <span class="ident">ConnectAddrs::None</span> =&gt; <span class="ident">ConnectAddrsIter::None</span>,
-            <span class="ident">ConnectAddrs::One</span>(<span class="ident">addr</span>) =&gt; <span class="ident">ConnectAddrsIter::One</span>(<span class="ident">addr</span>),
-            <span class="ident">ConnectAddrs::Multi</span>(<span class="ident">addrs</span>) =&gt; <span class="ident">ConnectAddrsIter::MultiOwned</span>(<span class="ident">addrs</span>.<span class="ident">into_iter</span>()),
+    <span class="doccomment">/// Take owned iterator resolved request addresses.
+    ///
+    /// # Examples
+    /// ```
+    /// # use std::net::SocketAddr;
+    /// # use actix_tls::connect::ConnectInfo;
+    /// let addr = SocketAddr::from(([127, 0, 0, 1], 4242));
+    ///
+    /// let mut conn = ConnectInfo::new(&quot;localhost&quot;);
+    /// let mut addrs = conn.take_addrs();
+    /// assert!(addrs.next().is_none());
+    ///
+    /// let mut conn = ConnectInfo::with_addr(&quot;localhost&quot;, addr);
+    /// let mut addrs = conn.take_addrs();
+    /// assert_eq!(addrs.next().unwrap(), addr);
+    /// ```
+    </span><span class="kw">pub fn </span>take_addrs(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = SocketAddr&gt;
+           + ExactSizeIterator
+           + iter::FusedIterator
+           + Clone
+           + fmt::Debug
+           + <span class="lifetime">&#39;static </span>{
+        <span class="kw">match </span>mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.addr) {
+            ConnectAddrs::None =&gt; ConnectAddrsIter::None,
+            ConnectAddrs::One(addr) =&gt; ConnectAddrsIter::One(addr),
+            ConnectAddrs::Multi(addrs) =&gt; ConnectAddrsIter::MultiOwned(addrs.into_iter()),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">addr</span>: <span class="ident">R</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">ConnectInfo::new</span>(<span class="ident">addr</span>)
+<span class="kw">impl</span>&lt;R: Host&gt; From&lt;R&gt; <span class="kw">for </span>ConnectInfo&lt;R&gt; {
+    <span class="kw">fn </span>from(addr: R) -&gt; <span class="self">Self </span>{
+        ConnectInfo::new(addr)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Host</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">ConnectInfo</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}:{}&quot;</span>, <span class="self">self</span>.<span class="ident">hostname</span>(), <span class="self">self</span>.<span class="ident">port</span>())
+<span class="kw">impl</span>&lt;R: Host&gt; fmt::Display <span class="kw">for </span>ConnectInfo&lt;R&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;{}:{}&quot;</span>, <span class="self">self</span>.hostname(), <span class="self">self</span>.port())
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std::net::Ipv4Addr</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::net::Ipv4Addr;
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_addr_iter_multi</span>() {
-        <span class="kw">let</span> <span class="ident">localhost</span> <span class="op">=</span> <span class="ident">SocketAddr::from</span>((<span class="ident">IpAddr::from</span>(<span class="ident">Ipv4Addr::LOCALHOST</span>), <span class="number">8080</span>));
-        <span class="kw">let</span> <span class="ident">unspecified</span> <span class="op">=</span> <span class="ident">SocketAddr::from</span>((<span class="ident">IpAddr::from</span>(<span class="ident">Ipv4Addr::UNSPECIFIED</span>), <span class="number">8080</span>));
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_addr_iter_multi() {
+        <span class="kw">let </span>localhost = SocketAddr::from((IpAddr::from(Ipv4Addr::LOCALHOST), <span class="number">8080</span>));
+        <span class="kw">let </span>unspecified = SocketAddr::from((IpAddr::from(Ipv4Addr::UNSPECIFIED), <span class="number">8080</span>));
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">addrs</span> <span class="op">=</span> <span class="ident">VecDeque::new</span>();
-        <span class="ident">addrs</span>.<span class="ident">push_back</span>(<span class="ident">localhost</span>);
-        <span class="ident">addrs</span>.<span class="ident">push_back</span>(<span class="ident">unspecified</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>addrs = VecDeque::new();
+        addrs.push_back(localhost);
+        addrs.push_back(unspecified);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">ConnectAddrsIter::Multi</span>(<span class="ident">addrs</span>.<span class="ident">iter</span>());
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">localhost</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">unspecified</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = ConnectAddrsIter::Multi(addrs.iter());
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(localhost));
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(unspecified));
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">ConnectAddrsIter::MultiOwned</span>(<span class="ident">addrs</span>.<span class="ident">into_iter</span>());
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">localhost</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">unspecified</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = ConnectAddrsIter::MultiOwned(addrs.into_iter());
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(localhost));
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(unspecified));
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_addr_iter_single</span>() {
-        <span class="kw">let</span> <span class="ident">localhost</span> <span class="op">=</span> <span class="ident">SocketAddr::from</span>((<span class="ident">IpAddr::from</span>(<span class="ident">Ipv4Addr::LOCALHOST</span>), <span class="number">8080</span>));
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_addr_iter_single() {
+        <span class="kw">let </span>localhost = SocketAddr::from((IpAddr::from(Ipv4Addr::LOCALHOST), <span class="number">8080</span>));
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">ConnectAddrsIter::One</span>(<span class="ident">localhost</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">localhost</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = ConnectAddrsIter::One(localhost);
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(localhost));
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">ConnectAddrsIter::None</span>;
-        <span class="macro">assert_eq!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = ConnectAddrsIter::None;
+        <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_local_addr</span>() {
-        <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">ConnectInfo::new</span>(<span class="string">&quot;hello&quot;</span>).<span class="ident">set_local_addr</span>([<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_local_addr() {
+        <span class="kw">let </span>conn = ConnectInfo::new(<span class="string">&quot;hello&quot;</span>).set_local_addr([<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]);
         <span class="macro">assert_eq!</span>(
-            <span class="ident">conn</span>.<span class="ident">local_addr</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">IpAddr::V4</span>(<span class="ident">Ipv4Addr::new</span>(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>))
+            conn.local_addr.unwrap(),
+            IpAddr::V4(Ipv4Addr::new(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>))
         )
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">request_ref</span>() {
-        <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">ConnectInfo::new</span>(<span class="string">&quot;hello&quot;</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">conn</span>.<span class="ident">request</span>(), <span class="kw-2">&amp;</span><span class="string">&quot;hello&quot;</span>)
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>request_ref() {
+        <span class="kw">let </span>conn = ConnectInfo::new(<span class="string">&quot;hello&quot;</span>);
+        <span class="macro">assert_eq!</span>(conn.request(), <span class="kw-2">&amp;</span><span class="string">&quot;hello&quot;</span>)
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">set_connect_addr_into_option</span>() {
-        <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="ident">SocketAddr::from</span>(([<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>], <span class="number">4242</span>));
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>set_connect_addr_into_option() {
+        <span class="kw">let </span>addr = SocketAddr::from(([<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>], <span class="number">4242</span>));
 
-        <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">ConnectInfo::new</span>(<span class="string">&quot;hello&quot;</span>).<span class="ident">set_addr</span>(<span class="prelude-val">None</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">addrs</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">addrs</span>();
-        <span class="macro">assert!</span>(<span class="ident">addrs</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
+        <span class="kw">let </span>conn = ConnectInfo::new(<span class="string">&quot;hello&quot;</span>).set_addr(<span class="prelude-val">None</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>addrs = conn.addrs();
+        <span class="macro">assert!</span>(addrs.next().is_none());
 
-        <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">ConnectInfo::new</span>(<span class="string">&quot;hello&quot;</span>).<span class="ident">set_addr</span>(<span class="ident">addr</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">addrs</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">addrs</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">addrs</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>(), <span class="ident">addr</span>);
+        <span class="kw">let </span>conn = ConnectInfo::new(<span class="string">&quot;hello&quot;</span>).set_addr(addr);
+        <span class="kw">let </span><span class="kw-2">mut </span>addrs = conn.addrs();
+        <span class="macro">assert_eq!</span>(addrs.next().unwrap(), addr);
 
-        <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">ConnectInfo::new</span>(<span class="string">&quot;hello&quot;</span>).<span class="ident">set_addr</span>(<span class="prelude-val">Some</span>(<span class="ident">addr</span>));
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">addrs</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">addrs</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">addrs</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>(), <span class="ident">addr</span>);
+        <span class="kw">let </span>conn = ConnectInfo::new(<span class="string">&quot;hello&quot;</span>).set_addr(<span class="prelude-val">Some</span>(addr));
+        <span class="kw">let </span><span class="kw-2">mut </span>addrs = conn.addrs();
+        <span class="macro">assert_eq!</span>(addrs.next().unwrap(), addr);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (848090dcd 2022-07-22)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8b5caee0 2022-10-16)" ></div></body></html>

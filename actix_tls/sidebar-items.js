@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"macro":[["deref","A helper to implement `Deref` for a type."],["deref_mut","A helper to implement `DerefMut` for a type."],["from","A helper to implement `From` for a unit struct."]],"mod":[["accept","TLS connection acceptor services."],["connect","TCP and TLS connector services."]]};
+window.SIDEBAR_ITEMS = {"mod":[["accept","TLS connection acceptor services."],["connect","TCP and TLS connector services."]]};

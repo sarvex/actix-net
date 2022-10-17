@@ -1,12 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/connect_addrs.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>connect_addrs.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
-                    <img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/connect_addrs.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>connect_addrs.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
+                    <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -88,88 +82,87 @@
 <span id="80">80</span>
 <span id="81">81</span>
 <span id="82">82</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">collections</span>::{<span class="ident">vec_deque</span>, <span class="ident">VecDeque</span>},
-    <span class="ident">fmt</span>, <span class="ident">iter</span>,
-    <span class="ident">net::SocketAddr</span>,
+</pre><pre class="rust"><code><span class="kw">use </span>std::{
+    collections::{vec_deque, VecDeque},
+    fmt, iter,
+    net::SocketAddr,
 };
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum</span> <span class="ident">ConnectAddrs</span> {
+<span class="attribute">#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ConnectAddrs {
     <span class="prelude-val">None</span>,
-    <span class="ident">One</span>(<span class="ident">SocketAddr</span>),
-    <span class="comment">// TODO: consider using smallvec</span>
-    <span class="ident">Multi</span>(<span class="ident">VecDeque</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span>),
+    One(SocketAddr),
+    <span class="comment">// TODO: consider using smallvec
+    </span>Multi(VecDeque&lt;SocketAddr&gt;),
 }
 
-<span class="kw">impl</span> <span class="ident">ConnectAddrs</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">is_unresolved</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident"><span class="self">Self</span>::None</span>)
+<span class="kw">impl </span>ConnectAddrs {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_unresolved(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span>::None)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">is_resolved</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="op">!</span><span class="self">self</span>.<span class="ident">is_unresolved</span>()
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ConnectAddrs</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident"><span class="self">Self</span>::None</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_resolved(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        !<span class="self">self</span>.is_unresolved()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ConnectAddrs</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">addr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">match</span> <span class="ident">addr</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">addr</span>) =&gt; <span class="ident">ConnectAddrs::One</span>(<span class="ident">addr</span>),
-            <span class="prelude-val">None</span> =&gt; <span class="ident">ConnectAddrs::None</span>,
+<span class="kw">impl </span>Default <span class="kw">for </span>ConnectAddrs {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::None
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="prelude-ty">Option</span>&lt;SocketAddr&gt;&gt; <span class="kw">for </span>ConnectAddrs {
+    <span class="kw">fn </span>from(addr: <span class="prelude-ty">Option</span>&lt;SocketAddr&gt;) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span>addr {
+            <span class="prelude-val">Some</span>(addr) =&gt; ConnectAddrs::One(addr),
+            <span class="prelude-val">None </span>=&gt; ConnectAddrs::None,
         }
     }
 }
 
-<span class="doccomment">/// Iterator over addresses in a [`Connect`] request.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum</span> <span class="ident">ConnectAddrsIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="doccomment">/// Iterator over addresses in a [`Connect`] request.
+</span><span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ConnectAddrsIter&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="prelude-val">None</span>,
-    <span class="ident">One</span>(<span class="ident">SocketAddr</span>),
-    <span class="ident">Multi</span>(<span class="ident">vec_deque::Iter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">SocketAddr</span><span class="op">&gt;</span>),
-    <span class="ident">MultiOwned</span>(<span class="ident">vec_deque::IntoIter</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span>),
+    One(SocketAddr),
+    Multi(vec_deque::Iter&lt;<span class="lifetime">&#39;a</span>, SocketAddr&gt;),
+    MultiOwned(vec_deque::IntoIter&lt;SocketAddr&gt;),
 }
 
-<span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">ConnectAddrsIter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">SocketAddr</span>;
+<span class="kw">impl </span>Iterator <span class="kw">for </span>ConnectAddrsIter&lt;<span class="lifetime">&#39;_</span>&gt; {
+    <span class="kw">type </span>Item = SocketAddr;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Item</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::None</span> =&gt; <span class="prelude-val">None</span>,
-            <span class="ident"><span class="self">Self</span>::One</span>(<span class="ident">addr</span>) =&gt; {
-                <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::None</span>;
-                <span class="prelude-val">Some</span>(<span class="ident">addr</span>)
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::None =&gt; <span class="prelude-val">None</span>,
+            <span class="self">Self</span>::One(addr) =&gt; {
+                <span class="kw-2">*</span><span class="self">self </span>= <span class="self">Self</span>::None;
+                <span class="prelude-val">Some</span>(addr)
             }
-            <span class="ident"><span class="self">Self</span>::Multi</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">iter</span>) =&gt; <span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">copied</span>(),
-            <span class="ident"><span class="self">Self</span>::MultiOwned</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">iter</span>) =&gt; <span class="ident">iter</span>.<span class="ident">next</span>(),
+            <span class="self">Self</span>::Multi(<span class="kw-2">ref mut </span>iter) =&gt; iter.next().copied(),
+            <span class="self">Self</span>::MultiOwned(<span class="kw-2">ref mut </span>iter) =&gt; iter.next(),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::None</span> =&gt; (<span class="number">0</span>, <span class="prelude-val">Some</span>(<span class="number">0</span>)),
-            <span class="ident"><span class="self">Self</span>::One</span>(<span class="kw">_</span>) =&gt; (<span class="number">1</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>)),
-            <span class="ident"><span class="self">Self</span>::Multi</span>(<span class="kw-2">ref</span> <span class="ident">iter</span>) =&gt; <span class="ident">iter</span>.<span class="ident">size_hint</span>(),
-            <span class="ident"><span class="self">Self</span>::MultiOwned</span>(<span class="kw-2">ref</span> <span class="ident">iter</span>) =&gt; <span class="ident">iter</span>.<span class="ident">size_hint</span>(),
+    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::None =&gt; (<span class="number">0</span>, <span class="prelude-val">Some</span>(<span class="number">0</span>)),
+            <span class="self">Self</span>::One(<span class="kw">_</span>) =&gt; (<span class="number">1</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>)),
+            <span class="self">Self</span>::Multi(<span class="kw-2">ref </span>iter) =&gt; iter.size_hint(),
+            <span class="self">Self</span>::MultiOwned(<span class="kw-2">ref </span>iter) =&gt; iter.size_hint(),
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">ConnectAddrsIter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_list</span>().<span class="ident">entries</span>(<span class="self">self</span>.<span class="ident">clone</span>()).<span class="ident">finish</span>()
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ConnectAddrsIter&lt;<span class="lifetime">&#39;_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        f.debug_list().entries(<span class="self">self</span>.clone()).finish()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">iter::ExactSizeIterator</span> <span class="kw">for</span> <span class="ident">ConnectAddrsIter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {}
+<span class="kw">impl </span>iter::ExactSizeIterator <span class="kw">for </span>ConnectAddrsIter&lt;<span class="lifetime">&#39;_</span>&gt; {}
 
-<span class="kw">impl</span> <span class="ident">iter::FusedIterator</span> <span class="kw">for</span> <span class="ident">ConnectAddrsIter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {}
+<span class="kw">impl </span>iter::FusedIterator <span class="kw">for </span>ConnectAddrsIter&lt;<span class="lifetime">&#39;_</span>&gt; {}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (848090dcd 2022-07-22)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8b5caee0 2022-10-16)" ></div></body></html>

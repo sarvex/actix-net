@@ -1,12 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/host.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>host.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
-                    <img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/host.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>host.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
+                    <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -77,70 +71,70 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
-</pre><pre class="rust"><code><span class="doccomment">//! The [`Host`] trait.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! The [`Host`] trait.
 
-<span class="doccomment">/// An interface for types where host parts (hostname and port) can be derived.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The [WHATWG URL Standard] defines the terminology used for this trait and its methods.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```plain</span>
-<span class="doccomment">/// +------------------------+</span>
-<span class="doccomment">/// |          host          |</span>
-<span class="doccomment">/// +-----------------+------+</span>
-<span class="doccomment">/// |    hostname     | port |</span>
-<span class="doccomment">/// |                 |      |</span>
-<span class="doccomment">/// | sub.example.com : 8080 |</span>
-<span class="doccomment">/// +-----------------+------+</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [WHATWG URL Standard]: https://url.spec.whatwg.org/</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Host</span>: <span class="ident">Unpin</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-    <span class="doccomment">/// Extract hostname.</span>
-    <span class="kw">fn</span> <span class="ident">hostname</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span>;
+/// An interface for types where host parts (hostname and port) can be derived.
+///
+/// The [WHATWG URL Standard] defines the terminology used for this trait and its methods.
+///
+/// ```plain
+/// +------------------------+
+/// |          host          |
+/// +-----------------+------+
+/// |    hostname     | port |
+/// |                 |      |
+/// | sub.example.com : 8080 |
+/// +-----------------+------+
+/// ```
+///
+/// [WHATWG URL Standard]: https://url.spec.whatwg.org/
+</span><span class="kw">pub trait </span>Host: Unpin + <span class="lifetime">&#39;static </span>{
+    <span class="doccomment">/// Extract hostname.
+    </span><span class="kw">fn </span>hostname(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str;
 
-    <span class="doccomment">/// Extract optional port.</span>
-    <span class="kw">fn</span> <span class="ident">port</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> {
-        <span class="prelude-val">None</span>
+    <span class="doccomment">/// Extract optional port.
+    </span><span class="kw">fn </span>port(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u16&gt; {
+        <span class="prelude-val">None
+    </span>}
+}
+
+<span class="kw">impl </span>Host <span class="kw">for </span>String {
+    <span class="kw">fn </span>hostname(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="self">self</span>.split_once(<span class="string">&#39;:&#39;</span>)
+            .map(|(hostname, <span class="kw">_</span>)| hostname)
+            .unwrap_or(<span class="self">self</span>)
+    }
+
+    <span class="kw">fn </span>port(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u16&gt; {
+        <span class="self">self</span>.split_once(<span class="string">&#39;:&#39;</span>).and_then(|(<span class="kw">_</span>, port)| port.parse().ok())
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Host</span> <span class="kw">for</span> <span class="ident">String</span> {
-    <span class="kw">fn</span> <span class="ident">hostname</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="self">self</span>.<span class="ident">split_once</span>(<span class="string">&#39;:&#39;</span>)
-            .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">hostname</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">hostname</span>)
-            .<span class="ident">unwrap_or</span>(<span class="self">self</span>)
+<span class="kw">impl </span>Host <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+    <span class="kw">fn </span>hostname(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="self">self</span>.split_once(<span class="string">&#39;:&#39;</span>)
+            .map(|(hostname, <span class="kw">_</span>)| hostname)
+            .unwrap_or(<span class="self">self</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">port</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">split_once</span>(<span class="string">&#39;:&#39;</span>).<span class="ident">and_then</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">port</span>)<span class="op">|</span> <span class="ident">port</span>.<span class="ident">parse</span>().<span class="ident">ok</span>())
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Host</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
-    <span class="kw">fn</span> <span class="ident">hostname</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="self">self</span>.<span class="ident">split_once</span>(<span class="string">&#39;:&#39;</span>)
-            .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">hostname</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">hostname</span>)
-            .<span class="ident">unwrap_or</span>(<span class="self">self</span>)
-    }
-
-    <span class="kw">fn</span> <span class="ident">port</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">split_once</span>(<span class="string">&#39;:&#39;</span>).<span class="ident">and_then</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">port</span>)<span class="op">|</span> <span class="ident">port</span>.<span class="ident">parse</span>().<span class="ident">ok</span>())
+    <span class="kw">fn </span>port(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u16&gt; {
+        <span class="self">self</span>.split_once(<span class="string">&#39;:&#39;</span>).and_then(|(<span class="kw">_</span>, port)| port.parse().ok())
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="macro">macro_rules!</span> <span class="ident">assert_connection_info_eq</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">req</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">hostname</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">port</span>:<span class="ident">expr</span>) =&gt; {{
-            <span class="macro">assert_eq!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">req</span>.<span class="ident">hostname</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">hostname</span>);
-            <span class="macro">assert_eq!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">req</span>.<span class="ident">port</span>(), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">port</span>);
+    <span class="macro">macro_rules! </span>assert_connection_info_eq {
+        (<span class="macro-nonterminal">$req</span>:expr, <span class="macro-nonterminal">$hostname</span>:expr, <span class="macro-nonterminal">$port</span>:expr) =&gt; {{
+            <span class="macro">assert_eq!</span>(<span class="macro-nonterminal">$req</span>.hostname(), <span class="macro-nonterminal">$hostname</span>);
+            <span class="macro">assert_eq!</span>(<span class="macro-nonterminal">$req</span>.port(), <span class="macro-nonterminal">$port</span>);
         }};
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">host_parsing</span>() {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>host_parsing() {
         <span class="macro">assert_connection_info_eq!</span>(<span class="string">&quot;example.com&quot;</span>, <span class="string">&quot;example.com&quot;</span>, <span class="prelude-val">None</span>);
         <span class="macro">assert_connection_info_eq!</span>(<span class="string">&quot;example.com:8080&quot;</span>, <span class="string">&quot;example.com&quot;</span>, <span class="prelude-val">Some</span>(<span class="number">8080</span>));
         <span class="macro">assert_connection_info_eq!</span>(<span class="string">&quot;example:8080&quot;</span>, <span class="string">&quot;example&quot;</span>, <span class="prelude-val">Some</span>(<span class="number">8080</span>));
@@ -149,5 +143,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (848090dcd 2022-07-22)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8b5caee0 2022-10-16)" ></div></body></html>

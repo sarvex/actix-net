@@ -1,12 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/resolve.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>resolve.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
-                    <img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-tls/src/connect/resolve.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>resolve.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_tls/index.html"><div class="logo-container">
+                    <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_tls/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -68,68 +62,67 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
-</pre><pre class="rust"><code><span class="doccomment">//! The [`Resolve`] trait.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! The [`Resolve`] trait.
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">StdError</span>, <span class="ident">net::SocketAddr</span>};
+</span><span class="kw">use </span>std::{error::Error <span class="kw">as </span>StdError, net::SocketAddr};
 
-<span class="kw">use</span> <span class="ident">futures_core::future::LocalBoxFuture</span>;
+<span class="kw">use </span>futures_core::future::LocalBoxFuture;
 
-<span class="doccomment">/// Custom async DNS resolvers.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Examples</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use std::net::SocketAddr;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// use actix_tls::connect::{Resolve, Resolver};</span>
-<span class="doccomment">/// use futures_util::future::LocalBoxFuture;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // use trust-dns async tokio resolver</span>
-<span class="doccomment">/// use trust_dns_resolver::TokioAsyncResolver;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// struct MyResolver {</span>
-<span class="doccomment">///     trust_dns: TokioAsyncResolver,</span>
-<span class="doccomment">/// };</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // impl Resolve trait and convert given host address str and port to SocketAddr.</span>
-<span class="doccomment">/// impl Resolve for MyResolver {</span>
-<span class="doccomment">///     fn lookup&lt;&#39;a&gt;(</span>
-<span class="doccomment">///         &amp;&#39;a self,</span>
-<span class="doccomment">///         host: &amp;&#39;a str,</span>
-<span class="doccomment">///         port: u16,</span>
-<span class="doccomment">///     ) -&gt; LocalBoxFuture&lt;&#39;a, Result&lt;Vec&lt;SocketAddr&gt;, Box&lt;dyn std::error::Error&gt;&gt;&gt; {</span>
-<span class="doccomment">///         Box::pin(async move {</span>
-<span class="doccomment">///             let res = self</span>
-<span class="doccomment">///                 .trust_dns</span>
-<span class="doccomment">///                 .lookup_ip(host)</span>
-<span class="doccomment">///                 .await?</span>
-<span class="doccomment">///                 .iter()</span>
-<span class="doccomment">///                 .map(|ip| SocketAddr::new(ip, port))</span>
-<span class="doccomment">///                 .collect();</span>
-<span class="doccomment">///             Ok(res)</span>
-<span class="doccomment">///         })</span>
-<span class="doccomment">///     }</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let my_resolver = MyResolver {</span>
-<span class="doccomment">///     trust_dns: TokioAsyncResolver::tokio_from_system_conf().unwrap(),</span>
-<span class="doccomment">/// };</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // wrap custom resolver</span>
-<span class="doccomment">/// let resolver = Resolver::custom(my_resolver);</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // resolver can be passed to connector factory where returned service factory</span>
-<span class="doccomment">/// // can be used to construct new connector services for use in clients</span>
-<span class="doccomment">/// let factory = actix_tls::connect::Connector::new(resolver);</span>
-<span class="doccomment">/// let connector = factory.service();</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Resolve</span> {
-    <span class="doccomment">/// Given DNS lookup information, returns a future that completes with socket information.</span>
-    <span class="kw">fn</span> <span class="ident">lookup</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
-        <span class="ident">host</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-        <span class="ident">port</span>: <span class="ident">u16</span>,
-    ) -&gt; <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">StdError</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Custom async DNS resolvers.
+///
+/// # Examples
+/// ```
+/// use std::net::SocketAddr;
+///
+/// use actix_tls::connect::{Resolve, Resolver};
+/// use futures_util::future::LocalBoxFuture;
+///
+/// // use trust-dns async tokio resolver
+/// use trust_dns_resolver::TokioAsyncResolver;
+///
+/// struct MyResolver {
+///     trust_dns: TokioAsyncResolver,
+/// };
+///
+/// // impl Resolve trait and convert given host address str and port to SocketAddr.
+/// impl Resolve for MyResolver {
+///     fn lookup&lt;&#39;a&gt;(
+///         &amp;&#39;a self,
+///         host: &amp;&#39;a str,
+///         port: u16,
+///     ) -&gt; LocalBoxFuture&lt;&#39;a, Result&lt;Vec&lt;SocketAddr&gt;, Box&lt;dyn std::error::Error&gt;&gt;&gt; {
+///         Box::pin(async move {
+///             let res = self
+///                 .trust_dns
+///                 .lookup_ip(host)
+///                 .await?
+///                 .iter()
+///                 .map(|ip| SocketAddr::new(ip, port))
+///                 .collect();
+///             Ok(res)
+///         })
+///     }
+/// }
+///
+/// let my_resolver = MyResolver {
+///     trust_dns: TokioAsyncResolver::tokio_from_system_conf().unwrap(),
+/// };
+///
+/// // wrap custom resolver
+/// let resolver = Resolver::custom(my_resolver);
+///
+/// // resolver can be passed to connector factory where returned service factory
+/// // can be used to construct new connector services for use in clients
+/// let factory = actix_tls::connect::Connector::new(resolver);
+/// let connector = factory.service();
+/// ```
+</span><span class="kw">pub trait </span>Resolve {
+    <span class="doccomment">/// Given DNS lookup information, returns a future that completes with socket information.
+    </span><span class="kw">fn </span>lookup&lt;<span class="lifetime">&#39;a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
+        host: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+        port: u16,
+    ) -&gt; LocalBoxFuture&lt;<span class="lifetime">&#39;a</span>, <span class="prelude-ty">Result</span>&lt;Vec&lt;SocketAddr&gt;, Box&lt;<span class="kw">dyn </span>StdError&gt;&gt;&gt;;
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (848090dcd 2022-07-22)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_tls" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8b5caee0 2022-10-16)" ></div></body></html>
