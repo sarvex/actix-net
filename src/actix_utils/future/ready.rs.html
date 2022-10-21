@@ -132,7 +132,7 @@
 <span id="130">130</span>
 <span id="131">131</span>
 <span id="132">132</span>
-</pre><pre class="rust"><code><span class="doccomment">//! When MSRV is 1.48, replace with `core::future::Ready` and `core::future::ready()`.
+</pre><pre class="rust"><code><span class="doccomment">//! When `core::future::Ready` has a `into_inner()` method, this can be deprecated.
 
 </span><span class="kw">use </span>core::{
     future::Future,
@@ -140,7 +140,7 @@
     task::{Context, Poll},
 };
 
-<span class="doccomment">/// Future for the [`ready`](ready()) function.
+<span class="doccomment">/// Future for the [`ready`] function.
 ///
 /// Panic will occur if polled more than once.
 ///
@@ -265,4 +265,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_utils" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8b5caee0 2022-10-16)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_utils" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (dcb376115 2022-10-20)" ></div></body></html>
