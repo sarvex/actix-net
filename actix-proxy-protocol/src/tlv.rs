@@ -1,7 +1,7 @@
 use std::{borrow::Cow, convert::TryFrom, str};
 
-const PP2_TYPE_ALPN: u8 = 0x01;
-const PP2_TYPE_AUTHORITY: u8 = 0x02;
+const PP2_TYPE_ALPN: u8 = 0x01; //           done
+const PP2_TYPE_AUTHORITY: u8 = 0x02; //      done
 const PP2_TYPE_CRC32C: u8 = 0x03; //         done
 const PP2_TYPE_NOOP: u8 = 0x04; //           done
 const PP2_TYPE_UNIQUE_ID: u8 = 0x05; //      done
@@ -178,11 +178,15 @@ impl UniqueId {
     ///
     ///
     /// # Panics
-    /// Panics if `value` is empty (i.e., has length of 0).
+    /// Panics if `value` is 0 bytes or larger than 128 bytes.
     pub fn new(id: impl Into<Vec<u8>>) -> Self {
         let value = id.into();
 
         assert!(!value.is_empty(), "UniqueId TLV `value` cannot be empty");
+        assert!(
+            value.len() < 128,
+            "UniqueId TLV `value` cannot be larger than 128 bytes"
+        );
 
         Self { value }
     }

@@ -9,34 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          components: rustfmt
-          override: true
-      - name: Rustfmt Check
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - uses: dtolnay/rust-toolchain@nightly
+        with: { components: rustfmt }
+      - run: cargo fmt --all -- --check
 
   clippy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          components: clippy
-          override: true
+      - uses: dtolnay/rust-toolchain@stable
+        with: { components: clippy }
+
       - name: Clippy Check
         uses: actions-rs/clippy-check@v1
         with:
+          args: --workspace --all-features --tests --examples --bins -- -Dwarnings -Dclippy::todo
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: --workspace --all-features --tests --examples --bins -- -Dclippy::todo

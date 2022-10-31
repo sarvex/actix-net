@@ -68,10 +68,13 @@ jobs:
       #   uses: Swatinem/rust-cache@v1.2.0
 
       - name: Install cargo-hack
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-hack
+        uses: taiki-e/install-action@cargo-hack
+
+      - name: workaround MSRV issues
+        if: matrix.version != 'stable'
+        run: |
+          cargo install cargo-edit --version=0.8.0
+          cargo add const-str@0.3 --dev -p=actix-proxy-protocol
 
       - name: Generate Cargo.lock
         uses: actions-rs/cargo@v1
@@ -131,20 +134,13 @@ jobs:
   rustdoc:
     name: rustdoc
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Rust (nightly)
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly-x86_64-unknown-linux-gnu
-          profile: minimal
-          override: true
+      - uses: dtolnay/rust-toolchain@nightly
 
       - name: Generate Cargo.lock
-        uses: actions-rs/cargo@v1
-        with: { command: generate-lockfile }
+        run: cargo generate-lockfile
       - name: Cache Dependencies
         uses: Swatinem/rust-cache@v1.3.0
 
