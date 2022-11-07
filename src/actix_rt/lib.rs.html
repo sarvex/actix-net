@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-rt/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../actix_rt/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-rt/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b826345d929eb323.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-87108236bf50c158.css"><link rel="stylesheet" disabled href="../../static.files/dark-839c5fb8722cb456.css"><link rel="stylesheet" disabled href="../../static.files/ayu-d48ac194417684c8.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-74087aa2e88f4475.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-0dede64717b247ca.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-201a7e04dc4c6fce.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../actix_rt/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -247,7 +247,7 @@
 //! Note that there are currently some unimplemented parts of using `actix-rt` with `io-uring`.
 //! In particular, when running a `System`, only `System::block_on` is supported.
 
-</span><span class="attribute">#![deny(rust_2018_idioms, nonstandard_style)]
+</span><span class="attr">#![deny(rust_2018_idioms, nonstandard_style)]
 #![warn(future_incompatible, missing_docs)]
 #![allow(clippy::type_complexity)]
 #![doc(html_logo_url = <span class="string">&quot;https://actix.rs/img/logo.png&quot;</span>)]
@@ -260,9 +260,9 @@
 
 <span class="comment">// Cannot define a main macro when compiled into test harness.
 // Workaround for https://github.com/rust-lang/rust/issues/62127.
-</span><span class="attribute">#[cfg(all(feature = <span class="string">&quot;macros&quot;</span>, not(test)))]
+</span><span class="attr">#[cfg(all(feature = <span class="string">&quot;macros&quot;</span>, not(test)))]
 </span><span class="kw">pub use </span>actix_macros::main;
-<span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
 </span><span class="kw">pub use </span>actix_macros::test;
 
 <span class="kw">mod </span>arbiter;
@@ -279,7 +279,7 @@
 <span class="kw">pub mod </span>signal {
     <span class="doccomment">//! Asynchronous signal handling (Tokio re-exports).
 
-    </span><span class="attribute">#[cfg(unix)]
+    </span><span class="attr">#[cfg(unix)]
     </span><span class="kw">pub mod </span>unix {
         <span class="doccomment">//! Unix specific signals (Tokio re-exports).
         </span><span class="kw">pub use </span>tokio::signal::unix::<span class="kw-2">*</span>;
@@ -300,11 +300,11 @@
     <span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite, Interest};
     <span class="kw">pub use </span>tokio::net::UdpSocket;
     <span class="kw">pub use </span>tokio::net::{TcpListener, TcpSocket, TcpStream};
-    <span class="attribute">#[cfg(unix)]
+    <span class="attr">#[cfg(unix)]
     </span><span class="kw">pub use </span>tokio::net::{UnixDatagram, UnixListener, UnixStream};
 
     <span class="doccomment">/// Extension trait over async read+write types that can also signal readiness.
-    </span><span class="attribute">#[doc(hidden)]
+    </span><span class="attr">#[doc(hidden)]
     </span><span class="kw">pub trait </span>ActixStream: AsyncRead + AsyncWrite + Unpin {
         <span class="doccomment">/// Poll stream and check read readiness of Self.
         ///
@@ -331,7 +331,7 @@
         }
     }
 
-    <span class="attribute">#[cfg(unix)]
+    <span class="attr">#[cfg(unix)]
     </span><span class="kw">impl </span>ActixStream <span class="kw">for </span>UnixStream {
         <span class="kw">fn </span>poll_read_ready(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;io::Result&lt;Ready&gt;&gt; {
             <span class="kw">let </span>ready = <span class="self">self</span>.ready(Interest::READABLE);
@@ -402,7 +402,7 @@
 /// assert!(handle.await.unwrap_err().is_cancelled());
 /// # });
 /// ```
-</span><span class="attribute">#[track_caller]
+</span><span class="attr">#[track_caller]
 #[inline]
 </span><span class="kw">pub fn </span>spawn&lt;Fut&gt;(f: Fut) -&gt; JoinHandle&lt;Fut::Output&gt;
 <span class="kw">where
@@ -412,4 +412,4 @@
     tokio::task::spawn_local(f)
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_rt" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (5e9772042 2022-10-29)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="actix_rt" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (7eef946fc 2022-11-06)" data-search-js="search-39ee4160c7dc16c9.js" data-settings-js="settings-3a0b9947ba1bd99a.js" data-settings-css="settings-a66f7524084a489a.css" ></div></body></html>
