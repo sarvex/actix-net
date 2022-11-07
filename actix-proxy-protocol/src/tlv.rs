@@ -206,6 +206,28 @@ impl Tlv for UniqueId {
     }
 }
 
+/// TLS (SSL)
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Ssl {
+    client: u8,
+    verify: u32,
+    tlvs: Vec<SslTlv>,
+}
+
+impl Tlv for Ssl {
+    const TYPE: u8 = PP2_TYPE_SSL;
+
+    fn try_from_value(value: &[u8]) -> Option<Self> {
+        const PP2_CLIENT_SSL: u8 = 0x01;
+        const PP2_CLIENT_CERT_CONN: u8 = 0x02;
+        const PP2_CLIENT_CERT_SESS: u8 = 0x04;
+    }
+
+    fn value_bytes(&self) -> Cow<'_, [u8]> {
+        Cow::Borrowed(&self.value)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
