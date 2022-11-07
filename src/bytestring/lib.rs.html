@@ -383,7 +383,6 @@
 <span id="383">383</span>
 <span id="384">384</span>
 <span id="385">385</span>
-<span id="386">386</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A UTF-8 encoded read-only string using Bytes as storage.
 
 </span><span class="attr">#![no_std]
@@ -437,30 +436,29 @@
         <span class="self">Self</span>(src)
     }
 
-    <span class="doccomment">/// Returns a slice of self that is equivalent to the given `subset`. Corresponds to [`Bytes::slice_ref`].
+    <span class="doccomment">/// Returns a byte string that is equivalent to the given `subset`.
     ///
-    /// When processing a `ByteString` buffer with other tools, one often gets a
-    /// `&amp;str` which is in fact a slice of the `ByteString`, i.e. a subset of it.
-    /// This function turns that `&amp;str` into another `ByteString`, as if one had
-    /// sliced the `ByteString` with the offsets that correspond to `subset`.
+    /// When processing a `ByteString` buffer with other tools, one often gets a `&amp;str` which is in
+    /// fact a slice of the `ByteString`; i.e., a subset of it. This function turns that `&amp;str` into
+    /// another `ByteString`, as if one had sliced the `ByteString` with the offsets that correspond
+    /// to `subset`.
+    ///
+    /// Corresponds to [`Bytes::slice_ref`].
     ///
     /// This operation is `O(1)`.
     ///
+    /// # Panics
+    /// Requires that the given `subset` str is in fact contained within the `ByteString` buffer;
+    /// otherwise this function will panic.
+    ///
     /// # Examples
-    ///
     /// ```
-    /// use bytestring::ByteString;
-    ///
+    /// # use bytestring::ByteString;
     /// let string = ByteString::from_static(&quot; foo &quot;);
     /// let subset = string.trim();
     /// let substring = string.slice_ref(subset);
     /// assert_eq!(substring, &quot;foo&quot;);
     /// ```
-    ///
-    /// # Panics
-    ///
-    /// Requires that the given `subset` str is in fact contained within the
-    /// `ByteString` buffer; otherwise this function will panic.
     </span><span class="kw">pub fn </span>slice_ref(<span class="kw-2">&amp;</span><span class="self">self</span>, subset: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(<span class="self">self</span>.<span class="number">0</span>.slice_ref(subset.as_bytes()))
     }
