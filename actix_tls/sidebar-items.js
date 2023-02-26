@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["accept","TLS connection acceptor services."],["connect","TCP and TLS connector services."]]};
+window.SIDEBAR_ITEMS = {"mod":["accept","connect"]};

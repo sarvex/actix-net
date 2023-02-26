@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["reexports","Re-exports from `native-tls` and `tokio-native-tls` that are useful for connectors."]],"struct":[["TlsConnector","Connector service and factory using `native-tls`."]]};
+window.SIDEBAR_ITEMS = {"mod":["reexports"],"struct":["TlsConnector"]};
