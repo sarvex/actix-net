@@ -201,6 +201,26 @@
 <a href="#201" id="201">201</a>
 <a href="#202" id="202">202</a>
 <a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Macros for Actix system and runtime.
 //!
 //! The [`actix-rt`](https://docs.rs/actix-rt) crate must be available for macro output to compile.
@@ -218,6 +238,9 @@
 
 </span><span class="kw">use </span>proc_macro::TokenStream;
 <span class="kw">use </span>quote::quote;
+<span class="kw">use </span>syn::parse::Parser <span class="kw">as _</span>;
+
+<span class="kw">type </span>AttributeArgs = syn::punctuated::Punctuated&lt;syn::Meta, <span class="macro">syn::Token!</span>[,]&gt;;
 
 <span class="doccomment">/// Marks async entry-point function to be executed by Actix system.
 ///
@@ -228,9 +251,9 @@
 ///     println!(&quot;Hello world&quot;);
 /// }
 /// ```
-</span><span class="attr">#[allow(clippy::needless_doctest_main)]
-#[proc_macro_attribute]
-#[cfg(not(test))] </span><span class="comment">// Work around for rust-lang/rust#62127
+</span><span class="comment">// #[allow(clippy::needless_doctest_main)]
+// #[cfg(not(test))] // Work around for rust-lang/rust#62127
+</span><span class="attr">#[proc_macro_attribute]
 </span><span class="kw">pub fn </span>main(args: TokenStream, item: TokenStream) -&gt; TokenStream {
     <span class="kw">let </span><span class="kw-2">mut </span>input = <span class="kw">match </span>syn::parse::&lt;syn::ItemFn&gt;(item.clone()) {
         <span class="prelude-val">Ok</span>(input) =&gt; input,
@@ -238,7 +261,11 @@
         </span><span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span>input_and_compile_error(item, err),
     };
 
-    <span class="kw">let </span>args = <span class="macro">syn::parse_macro_input!</span>(args <span class="kw">as </span>syn::AttributeArgs);
+    <span class="kw">let </span>parser = AttributeArgs::parse_terminated;
+    <span class="kw">let </span>args = <span class="kw">match </span>parser.parse(args.clone()) {
+        <span class="prelude-val">Ok</span>(args) =&gt; args,
+        <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span>input_and_compile_error(args, err),
+    };
 
     <span class="kw">let </span>attrs = <span class="kw-2">&amp;</span>input.attrs;
     <span class="kw">let </span>vis = <span class="kw-2">&amp;</span>input.vis;
@@ -258,11 +285,15 @@
 
     <span class="kw">for </span>arg <span class="kw">in </span><span class="kw-2">&amp;</span>args {
         <span class="kw">match </span>arg {
-            syn::NestedMeta::Meta(syn::Meta::NameValue(syn::MetaNameValue {
-                lit: syn::Lit::Str(lit),
+            syn::Meta::NameValue(syn::MetaNameValue {
                 path,
+                value:
+                    syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Str(lit),
+                        ..
+                    }),
                 ..
-            })) =&gt; <span class="kw">match </span>path
+            }) =&gt; <span class="kw">match </span>path
                 .get_ident()
                 .map(|i| i.to_string().to_lowercase())
                 .as_deref()
@@ -281,6 +312,7 @@
                         .into();
                 }
             },
+
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">return </span>syn::Error::new_spanned(arg, <span class="string">&quot;Unknown attribute specified&quot;</span>)
                     .to_compile_error()
@@ -317,7 +349,11 @@
         </span><span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span>input_and_compile_error(item, err),
     };
 
-    <span class="kw">let </span>args = <span class="macro">syn::parse_macro_input!</span>(args <span class="kw">as </span>syn::AttributeArgs);
+    <span class="kw">let </span>parser = AttributeArgs::parse_terminated;
+    <span class="kw">let </span>args = <span class="kw">match </span>parser.parse(args.clone()) {
+        <span class="prelude-val">Ok</span>(args) =&gt; args,
+        <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span>input_and_compile_error(args, err),
+    };
 
     <span class="kw">let </span>attrs = <span class="kw-2">&amp;</span>input.attrs;
     <span class="kw">let </span>vis = <span class="kw-2">&amp;</span>input.vis;
@@ -326,7 +362,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>has_test_attr = <span class="bool-val">false</span>;
 
     <span class="kw">for </span>attr <span class="kw">in </span>attrs {
-        <span class="kw">if </span>attr.path.is_ident(<span class="string">&quot;test&quot;</span>) {
+        <span class="kw">if </span>attr.path().is_ident(<span class="string">&quot;test&quot;</span>) {
             has_test_attr = <span class="bool-val">true</span>;
         }
     }
@@ -352,11 +388,15 @@
 
     <span class="kw">for </span>arg <span class="kw">in </span><span class="kw-2">&amp;</span>args {
         <span class="kw">match </span>arg {
-            syn::NestedMeta::Meta(syn::Meta::NameValue(syn::MetaNameValue {
-                lit: syn::Lit::Str(lit),
+            syn::Meta::NameValue(syn::MetaNameValue {
                 path,
+                value:
+                    syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Str(lit),
+                        ..
+                    }),
                 ..
-            })) =&gt; <span class="kw">match </span>path
+            }) =&gt; <span class="kw">match </span>path
                 .get_ident()
                 .map(|i| i.to_string().to_lowercase())
                 .as_deref()
