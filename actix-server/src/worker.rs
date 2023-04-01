@@ -621,6 +621,7 @@ impl Future for ServerWorker {
                     self.poll(cx)
                 }
             },
+
             WorkerState::Restarting(ref mut restart) => {
                 let factory_id = restart.factory_id;
                 let token = restart.token;
@@ -645,6 +646,7 @@ impl Future for ServerWorker {
 
                 self.poll(cx)
             }
+
             WorkerState::Shutdown(ref mut shutdown) => {
                 // drop all pending connections in rx channel.
                 while let Poll::Ready(Some(conn)) = this.conn_rx.poll_recv(cx) {
@@ -678,6 +680,7 @@ impl Future for ServerWorker {
                     shutdown.timer.as_mut().poll(cx)
                 }
             }
+
             // actively poll stream and handle worker command
             WorkerState::Available => loop {
                 match this.check_readiness(cx) {

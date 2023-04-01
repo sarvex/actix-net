@@ -1,4 +1,4 @@
-//! `rustls` based TLS connection acceptor service.
+//! `rustls` v0.21 based TLS connection acceptor service.
 //!
 //! See [`Acceptor`] for main service factory docs.
 
@@ -25,13 +25,14 @@ use pin_project_lite::pin_project;
 use tokio::io::{AsyncRead, AsyncWrite, ReadBuf};
 use tokio_rustls::rustls::ServerConfig;
 use tokio_rustls::{Accept, TlsAcceptor};
+use tokio_rustls_024 as tokio_rustls;
 
 use super::{TlsError, DEFAULT_TLS_HANDSHAKE_TIMEOUT, MAX_CONN_COUNTER};
 
 pub mod reexports {
     //! Re-exports from `rustls` that are useful for acceptors.
 
-    pub use tokio_rustls::rustls::ServerConfig;
+    pub use tokio_rustls_024::rustls::ServerConfig;
 }
 
 /// Wraps a `rustls` based async TLS stream in order to implement [`ActixStream`].
@@ -76,17 +77,17 @@ impl<IO: ActixStream> AsyncWrite for TlsStream<IO> {
     }
 
     fn is_write_vectored(&self) -> bool {
-        (**self).is_write_vectored()
+        (&**self).is_write_vectored()
     }
 }
 
 impl<IO: ActixStream> ActixStream for TlsStream<IO> {
     fn poll_read_ready(&self, cx: &mut Context<'_>) -> Poll<io::Result<Ready>> {
-        IO::poll_read_ready((**self).get_ref().0, cx)
+        IO::poll_read_ready((&**self).get_ref().0, cx)
     }
 
     fn poll_write_ready(&self, cx: &mut Context<'_>) -> Poll<io::Result<Ready>> {
-        IO::poll_write_ready((**self).get_ref().0, cx)
+        IO::poll_write_ready((&**self).get_ref().0, cx)
     }
 }
 

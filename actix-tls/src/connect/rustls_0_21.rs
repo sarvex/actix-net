@@ -18,23 +18,23 @@ use futures_core::ready;
 use tokio_rustls::rustls::{client::ServerName, OwnedTrustAnchor, RootCertStore};
 use tokio_rustls::{client::TlsStream as AsyncTlsStream, rustls::ClientConfig};
 use tokio_rustls::{Connect as RustlsConnect, TlsConnector as RustlsTlsConnector};
+use tokio_rustls_024 as tokio_rustls;
 use tracing::trace;
-use webpki_roots::TLS_SERVER_ROOTS;
 
 use crate::connect::{Connection, Host};
 
 pub mod reexports {
     //! Re-exports from `rustls` and `webpki_roots` that are useful for connectors.
 
-    pub use tokio_rustls::client::TlsStream as AsyncTlsStream;
-    pub use tokio_rustls::rustls::ClientConfig;
-    pub use webpki_roots::TLS_SERVER_ROOTS;
+    pub use tokio_rustls_024::client::TlsStream as AsyncTlsStream;
+    pub use tokio_rustls_024::rustls::ClientConfig;
+    pub use webpki_roots_023::TLS_SERVER_ROOTS;
 }
 
 /// Returns standard root certificates from `webpki-roots` crate as a rustls certificate store.
 pub fn webpki_roots_cert_store() -> RootCertStore {
     let mut root_certs = RootCertStore::empty();
-    for cert in TLS_SERVER_ROOTS.0 {
+    for cert in webpki_roots_023::TLS_SERVER_ROOTS.0 {
         let cert = OwnedTrustAnchor::from_subject_spki_name_constraints(
             cert.subject,
             cert.spki,
