@@ -274,17 +274,17 @@
     }
 
     <span class="kw">fn </span>is_write_vectored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        (<span class="kw-2">&amp;**</span><span class="self">self</span>).is_write_vectored()
+        (<span class="kw-2">**</span><span class="self">self</span>).is_write_vectored()
     }
 }
 
 <span class="kw">impl</span>&lt;IO: ActixStream&gt; ActixStream <span class="kw">for </span>TlsStream&lt;IO&gt; {
     <span class="kw">fn </span>poll_read_ready(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;io::Result&lt;Ready&gt;&gt; {
-        IO::poll_read_ready((<span class="kw-2">&amp;**</span><span class="self">self</span>).get_ref().<span class="number">0</span>, cx)
+        IO::poll_read_ready((<span class="kw-2">**</span><span class="self">self</span>).get_ref().<span class="number">0</span>, cx)
     }
 
     <span class="kw">fn </span>poll_write_ready(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;io::Result&lt;Ready&gt;&gt; {
-        IO::poll_write_ready((<span class="kw-2">&amp;**</span><span class="self">self</span>).get_ref().<span class="number">0</span>, cx)
+        IO::poll_write_ready((<span class="kw-2">**</span><span class="self">self</span>).get_ref().<span class="number">0</span>, cx)
     }
 }
 
