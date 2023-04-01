@@ -415,6 +415,7 @@
 <a href="#415" id="415">415</a>
 <a href="#416" id="416">416</a>
 <a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{
     fmt, io,
     pin::Pin,
@@ -435,7 +436,8 @@
 </span><span class="kw">const </span>HW: usize = <span class="number">8 </span>* <span class="number">1024</span>;
 
 <span class="macro">bitflags! </span>{
-    <span class="kw">struct </span>Flags: u8 {
+    <span class="attr">#[derive(Debug, Clone, Copy)]
+    </span><span class="kw">struct </span>Flags: u8 {
         <span class="kw">const </span>EOF = <span class="number">0b0001</span>;
         <span class="kw">const </span>READABLE = <span class="number">0b0010</span>;
     }
