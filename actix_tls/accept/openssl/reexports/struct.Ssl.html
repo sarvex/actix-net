@@ -255,7 +255,7 @@ trusted root certificate.</p>
     &amp;mut self,
     version: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://docs.rs/openssl/0.10/openssl/ssl/struct.SslVersion.html" title="struct openssl::ssl::SslVersion">SslVersion</a>&gt;
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, <a class="struct" href="https://docs.rs/openssl/0.10/openssl/error/struct.ErrorStack.html" title="struct openssl::error::ErrorStack">ErrorStack</a>&gt;</h4></section></summary><div class="docblock"><p>Sets the minimum supported protocol version.</p>
-<p>A value of <code>None</code> will enable protocol versions down the the lowest version supported by
+<p>A value of <code>None</code> will enable protocol versions down to the lowest version supported by
 OpenSSL.</p>
 <p>Requires OpenSSL 1.1.0 or LibreSSL 2.6.1 or newer.</p>
 <p>This corresponds to <a href="https://www.openssl.org/docs/manmaster/man3/SSL_set_min_proto_version.html"><code>SSL_set_min_proto_version</code></a>.</p>
@@ -263,7 +263,7 @@ OpenSSL.</p>
     &amp;mut self,
     version: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://docs.rs/openssl/0.10/openssl/ssl/struct.SslVersion.html" title="struct openssl::ssl::SslVersion">SslVersion</a>&gt;
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, <a class="struct" href="https://docs.rs/openssl/0.10/openssl/error/struct.ErrorStack.html" title="struct openssl::error::ErrorStack">ErrorStack</a>&gt;</h4></section></summary><div class="docblock"><p>Sets the maximum supported protocol version.</p>
-<p>A value of <code>None</code> will enable protocol versions down the the highest version supported by
+<p>A value of <code>None</code> will enable protocol versions up to the highest version supported by
 OpenSSL.</p>
 <p>Requires OpenSSL 1.1.0 or or LibreSSL 2.6.1 or newer.</p>
 <p>This corresponds to <a href="https://www.openssl.org/docs/manmaster/man3/SSL_set_max_proto_version.html"><code>SSL_set_max_proto_version</code></a>.</p>
