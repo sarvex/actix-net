@@ -10,15 +10,12 @@ keywords = ["network", "tls", "ssl", "async", "transport"]
 repository = "https://github.com/actix/actix-net.git"
 categories = ["network-programming", "asynchronous", "cryptography"]
 license = "MIT OR Apache-2.0"
-edition = "2018"
+edition = "2021"
+rust-version = "1.60"
 
 [package.metadata.docs.rs]
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
-
-[lib]
-name = "actix_tls"
-path = "src/lib.rs"
 
 [features]
 default = ["accept", "connect"]
@@ -55,7 +52,7 @@ actix-utils = "3"
 futures-core = { version = "0.3.7", default-features = false, features = ["alloc"] }
 impl-more = "0.1"
 pin-project-lite = "0.2.7"
-tokio = "1.18.4"
+tokio = "1.23.1"
 tokio-util = "0.7"
 tracing = { version = "0.1.30", default-features = false, features = ["log"] }
 
@@ -63,7 +60,7 @@ tracing = { version = "0.1.30", default-features = false, features = ["log"] }
 http = { version = "0.2.3", optional = true }
 
 # openssl
-tls-openssl = { package = "openssl", version = "0.10.9", optional = true }
+tls-openssl = { package = "openssl", version = "0.10.48", optional = true }
 tokio-openssl = { version = "0.6", optional = true }
 
 # rustls v0.20
