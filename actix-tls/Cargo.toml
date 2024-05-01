@@ -65,7 +65,7 @@ webpki-roots = { version = "0.22", optional = true }
 tokio-native-tls = { version = "0.3", optional = true }
 
 [dev-dependencies]
-actix-codec = "0.5"
+actix-codec = "0.5.2"
 actix-rt = "2.2"
 actix-server = "2"
 bytes = "1"
